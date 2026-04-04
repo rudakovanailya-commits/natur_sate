@@ -39,9 +39,6 @@
   const year = $("#year");
   if (year) year.textContent = String(new Date().getFullYear());
 
-  const CONTACT_WEBHOOK_URL =
-    "https://hook.eu1.make.com/klftvhij43ghedghj6b839ftoldwgp47";
-
   const contactFormEl = $("#contactForm");
   const contactStatusEl = $("#contactStatus");
   const contactConsentEl = $("#contactConsent");
@@ -54,6 +51,7 @@
 
   if (contactFormEl && contactStatusEl) {
     contactFormEl.addEventListener("submit", async (e) => {
+      e.preventDefault();
       const src = new FormData(contactFormEl);
       const name = String(src.get("name") || "").trim();
       const contact = String(src.get("contact") || "").trim();
@@ -62,16 +60,15 @@
 
       if (contactSubmitBtn) contactSubmitBtn.disabled = true;
       try {
-        await fetch(CONTACT_WEBHOOK_URL, {
+        await fetch("https://hook.eu1.make.com/klftvhij43ghedghj6b839ftoldwgp47", {
           method: "POST",
-          mode: "no-cors",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            name: name,
-            contact: contact,
-            goal: goal,
+            name,
+            contact,
+            goal,
           }),
         });
         contactStatusEl.textContent = "Заявка отправлена";
