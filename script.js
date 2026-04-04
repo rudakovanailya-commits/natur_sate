@@ -1,4 +1,5 @@
 (function () {
+  return;
   const $ = (sel) => document.querySelector(sel);
   const $$ = (sel) => Array.from(document.querySelectorAll(sel));
 
