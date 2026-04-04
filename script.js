@@ -1,5 +1,4 @@
 (function () {
-  return;
   const $ = (sel) => document.querySelector(sel);
   const $$ = (sel) => Array.from(document.querySelectorAll(sel));
 
@@ -39,7 +38,10 @@
   const year = $("#year");
   if (year) year.textContent = String(new Date().getFullYear());
 
-  const contactFormEl = $("#contactForm");
+  const MAKE_CONTACT_WEBHOOK =
+    "https://hook.eu1.make.com/klftvhij43ghedghj6b839ftoldwgp47";
+
+  const contactFormEl = document.getElementById("contactForm");
   const contactStatusEl = $("#contactStatus");
   const contactConsentEl = $("#contactConsent");
   const contactSubmitBtn = $("#contactSubmitBtn");
@@ -49,36 +51,46 @@
     contactSubmitBtn.disabled = !contactConsentEl.checked;
   }
 
-  if (contactFormEl && contactStatusEl) {
-    contactFormEl.addEventListener("submit", async (e) => {
-      e.preventDefault();
-      const src = new FormData(contactFormEl);
-      const name = String(src.get("name") || "").trim();
-      const contact = String(src.get("contact") || "").trim();
-      const goal = String(src.get("goal") || "").trim();
-      if (!name || !contact) return;
+  if (contactFormEl) {
+    const nameInput = contactFormEl.querySelector('[name="name"]');
+    const contactInput = contactFormEl.querySelector('[name="contact"]');
+    const goalInput = contactFormEl.querySelector('[name="goal"]');
+    if (!nameInput || !contactInput || !goalInput) {
+      console.error(
+        'contactForm: нужны поля с name="name", name="contact" и name="goal"'
+      );
+    } else {
+      contactFormEl.addEventListener("submit", async (e) => {
+        e.preventDefault();
 
-      if (contactSubmitBtn) contactSubmitBtn.disabled = true;
-      try {
-        await fetch("https://hook.eu1.make.com/klftvhij43ghedghj6b839ftoldwgp47", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            name,
-            contact,
-            goal,
-          }),
-        });
-        contactStatusEl.textContent = "Заявка отправлена";
-        contactFormEl.reset();
-        syncContactSubmitEnabled();
-      } catch {
-        contactStatusEl.textContent = "Не удалось отправить заявку";
-        syncContactSubmitEnabled();
-      }
-    });
+        const name = String(nameInput.value || "").trim();
+        const contact = String(contactInput.value || "").trim();
+        const goal = String(goalInput.value || "").trim();
+        if (!name || !contact) return;
+
+        if (contactSubmitBtn) contactSubmitBtn.disabled = true;
+        try {
+          const res = await fetch(MAKE_CONTACT_WEBHOOK, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ name, contact, goal }),
+          });
+          if (!res.ok) {
+            throw new Error(`HTTP ${res.status}`);
+          }
+          alert("Заявка отправлена");
+          contactFormEl.reset();
+          syncContactSubmitEnabled();
+          if (contactStatusEl) contactStatusEl.textContent = "";
+        } catch (err) {
+          alert("Ошибка отправки");
+          console.error(err);
+          syncContactSubmitEnabled();
+        }
+      });
+    }
   }
 
   if (contactConsentEl && contactSubmitBtn) {
