@@ -60,15 +60,20 @@
       const goal = String(src.get("goal") || "").trim();
       if (!name || !contact) return;
 
-      const body = new FormData();
-      body.append("name", name);
-      body.append("contact", contact);
-      body.append("goal", goal);
-
       if (contactSubmitBtn) contactSubmitBtn.disabled = true;
       try {
-        const res = await fetch(CONTACT_WEBHOOK_URL, { method: "POST", body });
-        if (!res.ok) throw new Error();
+        await fetch(CONTACT_WEBHOOK_URL, {
+          method: "POST",
+          mode: "no-cors",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            name: name,
+            contact: contact,
+            goal: goal,
+          }),
+        });
         contactStatusEl.textContent = "Заявка отправлена";
         contactFormEl.reset();
         syncContactSubmitEnabled();
@@ -185,38 +190,3 @@
     });
   });
 })();
-document.addEventListener("DOMContentLoaded", function () {
-  const form = document.getElementById("contactForm");
-
-  if (!form) {
-    console.log("Форма не найдена");
-    return;
-  }
-
-  form.addEventListener("submit", async function (e) {
-    e.preventDefault();
-
-    const name = form.querySelector('[name="name"]').value;
-    const contact = form.querySelector('[name="contact"]').value;
-    const goal = form.querySelector('[name="goal"]')?.value || "";
-
-    const formData = new FormData();
-    formData.append("name", name);
-    formData.append("contact", contact);
-    formData.append("goal", goal);
-
-    try {
-      await fetch("https://hook.eu1.make.com/klftvhij43ghedghj6b839ftoldwgp47", {
-        method: "POST",
-        body: formData
-      });
-
-      alert("Заявка отправлена");
-      form.reset();
-
-    } catch (err) {
-      alert("Не удалось отправить заявку");
-      console.error(err);
-    }
-  });
-});
