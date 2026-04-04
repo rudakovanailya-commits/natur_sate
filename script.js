@@ -53,7 +53,6 @@
 
   if (contactFormEl && contactStatusEl) {
     contactFormEl.addEventListener("submit", async (e) => {
-      e.preventDefault();
       const src = new FormData(contactFormEl);
       const name = String(src.get("name") || "").trim();
       const contact = String(src.get("contact") || "").trim();
