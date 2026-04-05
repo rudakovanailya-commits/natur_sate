@@ -1505,6 +1505,11 @@ input:focus{
   font-size: 0.98rem;
   line-height: 1.55;
 }
+.formats-section .format-card__format{
+  margin: 6px 0 0;
+  font-size: 0.93rem;
+  line-height: 1.45;
+}
 .formats-section .format-card__list{
   flex: 1;
 }
