@@ -43,8 +43,8 @@
   --container: 1140px;
   --container-hero: 1280px;
 
-  /* Полноэкранный фон с пионами (лежит рядом со styles.css: assets/flowers.png) */
-  --page-bg-image: url("./assets/flowers.png");
+  /* Полноэкранный фон с пионами (файл в корне проекта) */
+  --page-bg-image: url("./flowers.png");
 }
 
 *{ box-sizing: border-box; }
