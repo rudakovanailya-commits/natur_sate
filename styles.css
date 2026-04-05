@@ -926,11 +926,13 @@ input:focus{
   font-size: 1.35rem;
   font-weight: 700;
 }
-/* Только заголовок «Этот подход подойдёт вам…» — увеличенный; список и строка внизу — обычный размер */
+/* Заголовок карточки — как у «Обо мне» (.section-head h2) */
 .hero-aside .aside-title{
-  font-size: clamp(2.35rem, 5.2vw, 2.7rem);
-  line-height: 1.14;
-  margin-bottom: 16px;
+  font-size: clamp(1.85rem, 3.5vw, 2.5rem);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  line-height: 1.12;
+  margin-bottom: 12px;
 }
 .check-list{
   margin: 0;
