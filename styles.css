@@ -1143,6 +1143,92 @@ input:focus{
   }
 }
 
+/* Как проходит работа — этапы-карточки */
+.work-steps-section{
+  padding: clamp(56px, 7vw, 80px) 0;
+}
+.work-steps-head{
+  margin-bottom: clamp(26px, 4vw, 38px);
+}
+.work-steps-head h2{
+  margin-bottom: 0;
+}
+.work-steps-lead{
+  margin: 12px 0 0;
+  max-width: 48ch;
+  font-size: 1.05rem;
+  line-height: 1.62;
+  color: var(--muted);
+}
+.work-steps{
+  list-style: none;
+  margin: 0 0 36px;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px 22px;
+}
+.work-steps__item{
+  margin: 0;
+  padding: 20px 22px;
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  background: rgba(255, 252, 248, 0.72);
+  border: 1px solid rgba(175, 145, 125, 0.2);
+  border-radius: var(--radius-md);
+  box-shadow: 0 2px 12px rgba(120, 80, 60, 0.05);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.work-steps__item:hover{
+  border-color: rgba(175, 145, 125, 0.3);
+  box-shadow: 0 4px 18px rgba(120, 80, 60, 0.07);
+}
+.work-steps__num{
+  flex-shrink: 0;
+  width: 2.25rem;
+  height: 2.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--accent-dim);
+  color: var(--accent);
+  font-weight: 700;
+  font-size: 0.92rem;
+  line-height: 1;
+}
+.work-steps__title{
+  margin: 0 0 8px;
+  font-family: var(--font-display);
+  font-size: 1.14rem;
+  font-weight: 600;
+  line-height: 1.28;
+  color: var(--ink);
+}
+.work-steps__body .muted{
+  margin: 0;
+  font-size: 0.98rem;
+  line-height: 1.62;
+  max-width: 42ch;
+}
+.work-steps-foot{
+  text-align: center;
+  max-width: 46ch;
+  margin: 0 auto;
+  font-size: 1.02rem;
+  line-height: 1.6;
+}
+@media (max-width: 720px){
+  .work-steps{
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+  .work-steps__body .muted{
+    max-width: none;
+  }
+}
+
 .plan-list-intro{
   margin: 0 0 6px;
   font-weight: 600;
