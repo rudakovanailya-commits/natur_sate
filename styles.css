@@ -480,11 +480,11 @@ main#main{
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 20px 36px;
+  padding: 26px 48px;
   border-radius: var(--radius-lg);
   font-family: var(--font-body);
   font-weight: 600;
-  font-size: clamp(17px, 2.15vw, 20px);
+  font-size: clamp(19px, 2.65vw, 23px);
   line-height: 1.25;
   letter-spacing: 0.02em;
   text-decoration: none;
@@ -526,11 +526,13 @@ main#main{
 }
 
 .hero-cta__hint{
-  margin: 14px 0 0;
-  max-width: min(36ch, 100%);
-  font-size: 0.98rem;
-  line-height: 1.5;
+  margin: 18px 0 0;
+  max-width: 100%;
+  width: max-content;
+  font-size: clamp(11px, 2.85vw, 1rem);
+  line-height: 1.35;
   color: var(--muted-2);
+  white-space: nowrap;
 }
 
 .badge-soft{
@@ -1961,15 +1963,20 @@ input:focus{
   }
   .hero-cta{
     align-items: center;
+    max-width: 100%;
   }
   .hero-cta__hint{
     text-align: center;
-    max-width: 34ch;
+    max-width: 100%;
+    width: max-content;
+    margin-left: auto;
+    margin-right: auto;
   }
   .hero-cta__btn{
     width: 100%;
-    max-width: 22rem;
-    padding: 18px 28px;
+    max-width: 26rem;
+    padding: 22px 36px;
+    font-size: clamp(18px, 4.2vw, 22px);
   }
   .hero-badges{
     justify-content: center;
