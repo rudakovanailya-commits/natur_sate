@@ -40,9 +40,7 @@
 
   /** Эффект печати подзаголовка hero (аналог TextType + GSAP для курсора) */
   const HERO_SUBTITLE_PHRASES = [
-    "Когда сил нет, а анализы «в норме»",
-    "Мягко — без жёстких диет и давления",
-    "Питание, режим и энергия после 40",
+    "Возрастные изменения — это естественно.\nНо вы не обязаны мириться со снижением качества жизни",
   ];
   const heroSubtitleEl = document.getElementById("heroSubtitle");
   const heroSubtitleTextEl = document.getElementById("heroSubtitleText");
@@ -55,7 +53,7 @@
     const pauseDuration = 1500;
     const deletingSpeed = 50;
     const initialDelay = 400;
-    const loop = true;
+    const loop = HERO_SUBTITLE_PHRASES.length > 1;
     const cursorBlinkDuration = 0.5;
     const startOnVisible = true;
 

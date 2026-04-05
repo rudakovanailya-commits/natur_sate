@@ -413,8 +413,8 @@ main#main{
 .hero-copy .hero-subtitle{
   display: block;
   margin: 18px 0 0;
-  max-width: min(44ch, 100%);
-  min-height: 1.35em;
+  max-width: min(52ch, 100%);
+  min-height: 2.6em;
   font-family: var(--font-display);
   font-size: clamp(1.85rem, 4.2vw, 2.45rem);
   font-weight: 600;
