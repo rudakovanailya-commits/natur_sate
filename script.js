@@ -38,6 +38,137 @@
   const year = $("#year");
   if (year) year.textContent = String(new Date().getFullYear());
 
+  /** Эффект печати подзаголовка hero (аналог TextType + GSAP для курсора) */
+  const HERO_SUBTITLE_PHRASES = [
+    "Когда сил нет, а анализы «в норме»",
+    "Мягко — без жёстких диет и давления",
+    "Питание, режим и энергия после 40",
+  ];
+  const heroSubtitleEl = document.getElementById("heroSubtitle");
+  const heroSubtitleTextEl = document.getElementById("heroSubtitleText");
+  const heroSubtitleCursorEl = document.getElementById("heroSubtitleCursor");
+
+  function initHeroSubtitleTypewriter() {
+    if (!heroSubtitleEl || !heroSubtitleTextEl || !heroSubtitleCursorEl) return;
+
+    const typingSpeed = 75;
+    const pauseDuration = 1500;
+    const deletingSpeed = 50;
+    const initialDelay = 400;
+    const loop = true;
+    const cursorBlinkDuration = 0.5;
+    const startOnVisible = true;
+
+    if (reduceMotion) {
+      heroSubtitleEl.classList.add("hero-subtitle--no-motion");
+      heroSubtitleTextEl.textContent = HERO_SUBTITLE_PHRASES[0] || "";
+      return;
+    }
+
+    let cursorTween = null;
+    if (typeof gsap !== "undefined") {
+      gsap.set(heroSubtitleCursorEl, { opacity: 1 });
+      cursorTween = gsap.to(heroSubtitleCursorEl, {
+        opacity: 0,
+        duration: cursorBlinkDuration,
+        repeat: -1,
+        yoyo: true,
+        ease: "power2.inOut",
+      });
+    } else {
+      heroSubtitleCursorEl.classList.add("hero-subtitle__cursor--css-blink");
+    }
+
+    let currentTextIndex = 0;
+    let displayedText = "";
+    let charIndex = 0;
+    let isDeleting = false;
+    let timeoutId = 0;
+    let started = false;
+
+    function clearTypingTimeout() {
+      if (timeoutId) window.clearTimeout(timeoutId);
+      timeoutId = 0;
+    }
+
+    function schedule(fn, delay) {
+      clearTypingTimeout();
+      timeoutId = window.setTimeout(fn, delay);
+    }
+
+    function tick() {
+      const full = HERO_SUBTITLE_PHRASES[currentTextIndex] || "";
+
+      if (isDeleting) {
+        if (displayedText.length === 0) {
+          isDeleting = false;
+          if (!loop && currentTextIndex >= HERO_SUBTITLE_PHRASES.length - 1) {
+            return;
+          }
+          currentTextIndex = (currentTextIndex + 1) % HERO_SUBTITLE_PHRASES.length;
+          charIndex = 0;
+          schedule(tick, pauseDuration);
+        } else {
+          displayedText = displayedText.slice(0, -1);
+          heroSubtitleTextEl.textContent = displayedText;
+          schedule(tick, deletingSpeed);
+        }
+        return;
+      }
+
+      if (charIndex < full.length) {
+        displayedText += full.charAt(charIndex);
+        charIndex += 1;
+        heroSubtitleTextEl.textContent = displayedText;
+        schedule(tick, typingSpeed);
+        return;
+      }
+
+      if (HERO_SUBTITLE_PHRASES.length >= 1) {
+        if (!loop && currentTextIndex === HERO_SUBTITLE_PHRASES.length - 1) {
+          return;
+        }
+        schedule(() => {
+          isDeleting = true;
+          tick();
+        }, pauseDuration);
+      }
+    }
+
+    function startLoop() {
+      if (started) return;
+      started = true;
+      schedule(tick, initialDelay);
+    }
+
+    if (startOnVisible && "IntersectionObserver" in window) {
+      const io = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (!entry.isIntersecting) return;
+            startLoop();
+            io.disconnect();
+          });
+        },
+        { threshold: 0.15 }
+      );
+      io.observe(heroSubtitleEl);
+    } else {
+      startLoop();
+    }
+
+    window.addEventListener(
+      "pagehide",
+      () => {
+        clearTypingTimeout();
+        if (cursorTween && typeof cursorTween.kill === "function") cursorTween.kill();
+      },
+      { once: true }
+    );
+  }
+
+  initHeroSubtitleTypewriter();
+
   const MAKE_CONTACT_WEBHOOK =
     "https://hook.eu1.make.com/klftvhij43ghedghj6b839ftoldwgp47";
 

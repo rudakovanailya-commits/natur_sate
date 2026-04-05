@@ -142,39 +142,6 @@ html.js-reveal-ready .reveal-on-scroll.is-visible{
   to{ opacity: 1; transform: translateY(0); }
 }
 
-/* Hero: заметное появление подзаголовка + лёгкий «дыхание» акцента */
-@keyframes heroSubtitleIn{
-  from{
-    opacity: 0;
-    transform: translateY(32px) scale(0.98);
-    letter-spacing: 0.12em;
-    filter: blur(3px);
-  }
-  70%{
-    opacity: 1;
-    letter-spacing: 0.02em;
-    filter: blur(0);
-  }
-  to{
-    opacity: 1;
-    transform: translateY(0) scale(1);
-    letter-spacing: 0.02em;
-    filter: blur(0);
-  }
-}
-
-@keyframes heroSubtitleAccent{
-  0%,
-  100%{
-    color: var(--subtitle-accent);
-    text-shadow: 0 0 0 transparent;
-  }
-  50%{
-    color: #7a5d7a;
-    text-shadow: 0 2px 28px rgba(142, 111, 142, 0.35);
-  }
-}
-
 @keyframes badgeIn{
   from{ opacity: 0; transform: translateY(12px) scale(.97); }
   to{ opacity: 1; transform: translateY(0) scale(1); }
@@ -442,28 +409,51 @@ main#main{
   font-size: clamp(2.35rem, 5.4vw, 3.95rem);
 }
 .hero-copy .hero-subtitle{
+  display: block;
   margin: 18px 0 0;
-  max-width: min(40ch, 100%);
+  max-width: min(44ch, 100%);
+  min-height: 1.35em;
   font-family: var(--font-display);
-  font-size: clamp(1.55rem, 3.6vw, 2.05rem);
+  font-size: clamp(1.85rem, 4.2vw, 2.45rem);
   font-weight: 600;
   font-style: italic;
   font-synthesis: none;
   line-height: 1.3;
   letter-spacing: 0.02em;
   color: var(--subtitle-accent);
-  animation:
-    heroSubtitleIn 1.25s cubic-bezier(0.2, 0.85, 0.25, 1) both,
-    heroSubtitleAccent 5.5s ease-in-out 1.3s infinite;
+  text-shadow: 0 2px 20px rgba(142, 111, 142, 0.22);
+}
+
+.hero-subtitle__text{
+  white-space: pre-wrap;
+}
+
+.hero-subtitle__cursor{
+  margin-left: 0.12em;
+  display: inline-block;
+  font-style: normal;
+  font-weight: 600;
+  opacity: 1;
+}
+
+.hero-subtitle--no-motion .hero-subtitle__cursor{
+  display: none;
+}
+
+@keyframes heroSubtitleCursorBlink{
+  0%,
+  45%{ opacity: 1; }
+  50%,
+  95%{ opacity: 0.15; }
+  100%{ opacity: 1; }
+}
+
+.hero-subtitle__cursor--css-blink{
+  animation: heroSubtitleCursorBlink 1s step-end infinite;
 }
 
 @media (prefers-reduced-motion: reduce){
   .hero-copy .hero-subtitle{
-    animation: none;
-    opacity: 1;
-    transform: none;
-    letter-spacing: 0.02em;
-    filter: none;
     text-shadow: none;
   }
 }

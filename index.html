@@ -69,7 +69,12 @@
                 Мягкий путь к женскому здоровью
                 <span class="text-accent">и энергии после 40</span>
               </h1>
-              <p class="hero-subtitle">Когда сил нет, а анализы «в норме»</p>
+              <p class="hero-subtitle" id="heroSubtitle" aria-live="polite">
+                <span class="hero-subtitle__text" id="heroSubtitleText"></span
+                ><span class="hero-subtitle__cursor" id="heroSubtitleCursor" aria-hidden="true"
+                  >_</span
+                >
+              </p>
 
               <p class="hero-lead">
                 Индивидуальные рекомендации по питанию, режиму и восстановлению ресурса. Работаю с теми, кто устал жить
@@ -683,6 +688,7 @@
       </div>
     </footer>
 
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" defer></script>
     <script src="./script.js" defer></script>
     <script src="./magic-bento.js" defer></script>
   </body>
