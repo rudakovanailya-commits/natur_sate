@@ -1959,7 +1959,8 @@ input:focus{
     text-align: center;
   }
   .hero-portrait-frame{
-    max-width: 280px;
+    width: 100%;
+    max-width: min(480px, 92vw);
     margin: 0 auto;
   }
   .hero-copy{
