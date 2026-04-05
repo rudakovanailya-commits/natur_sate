@@ -467,6 +467,74 @@ main#main{
   margin-top: 16px;
 }
 
+.hero-cta{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0;
+  margin-top: 10px;
+  margin-bottom: 8px;
+  animation: fadeUp 1s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 0.2s;
+}
+
+.hero-cta__btn{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px 36px;
+  border-radius: var(--radius-lg);
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: clamp(17px, 2.15vw, 20px);
+  line-height: 1.25;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  color: #fff9f5;
+  border: 1px solid rgba(74, 38, 44, 0.38);
+  background: linear-gradient(
+    165deg,
+    #8f5a62 0%,
+    #7a4a54 38%,
+    #6a3f4a 72%,
+    #5c3643 100%
+  );
+  box-shadow:
+    0 1px 0 rgba(255, 240, 236, 0.12) inset,
+    0 10px 28px rgba(72, 38, 48, 0.2),
+    0 3px 12px rgba(60, 32, 40, 0.12);
+  transition:
+    filter 0.4s ease,
+    box-shadow 0.35s ease,
+    transform 0.25s ease;
+}
+
+.hero-cta__btn:hover{
+  filter: brightness(0.88);
+  box-shadow:
+    0 1px 0 rgba(255, 236, 228, 0.08) inset,
+    0 8px 22px rgba(52, 28, 36, 0.24),
+    0 2px 10px rgba(48, 26, 32, 0.14);
+}
+
+.hero-cta__btn:focus-visible{
+  outline: 2px solid var(--accent-2);
+  outline-offset: 3px;
+}
+
+.hero-cta__btn:active{
+  transform: translateY(1px);
+  filter: brightness(0.82);
+}
+
+.hero-cta__hint{
+  margin: 14px 0 0;
+  max-width: min(36ch, 100%);
+  font-size: 0.98rem;
+  line-height: 1.5;
+  color: var(--muted-2);
+}
+
 .badge-soft{
   border-color: rgba(200, 160, 140, 0.35);
   background: rgba(255, 244, 236, 0.92);
@@ -1902,8 +1970,17 @@ input:focus{
   .hero-copy{
     width: 100%;
   }
-  .hero-actions{
-    justify-content: center;
+  .hero-cta{
+    align-items: center;
+  }
+  .hero-cta__hint{
+    text-align: center;
+    max-width: 34ch;
+  }
+  .hero-cta__btn{
+    width: 100%;
+    max-width: 22rem;
+    padding: 18px 28px;
   }
   .hero-badges{
     justify-content: center;
