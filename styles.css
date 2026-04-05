@@ -916,7 +916,7 @@ input:focus{
 }
 
 .hero-aside{
-  padding: 28px 24px;
+  padding: 20px;
   margin-top: 22px;
   border-radius: 28px 8px 28px 28px;
 }
@@ -926,11 +926,11 @@ input:focus{
   font-size: 1.35rem;
   font-weight: 700;
 }
-/* «Этот подход подойдёт вам…» — увеличенная типографика (~×2 к прежним размерам) */
+/* Только заголовок «Этот подход подойдёт вам…» — увеличенный; список и строка внизу — обычный размер */
 .hero-aside .aside-title{
   font-size: clamp(2.35rem, 5.2vw, 2.7rem);
   line-height: 1.14;
-  margin-bottom: 18px;
+  margin-bottom: 16px;
 }
 .check-list{
   margin: 0;
@@ -941,26 +941,12 @@ input:focus{
   margin: 11px 0;
   line-height: 1.55;
 }
-.hero-aside .check-list{
-  padding-left: 1.5rem;
-}
-.hero-aside .check-list li{
-  font-size: clamp(1.85rem, 3.6vw, 2.12rem);
-  line-height: 1.42;
-  margin: 14px 0;
-}
 .aside-foot{
   margin: 18px 0 0;
   padding-top: 16px;
   border-top: 1px solid rgba(160, 120, 100, 0.22);
   font-size: 0.98rem;
   line-height: 1.55;
-}
-.hero-aside .aside-foot{
-  font-size: clamp(1.55rem, 2.9vw, 1.95rem);
-  line-height: 1.45;
-  margin-top: 22px;
-  padding-top: 20px;
 }
 
 /* «Обо мне»: плашка справа с верхом на уровне заголовка h2 */
