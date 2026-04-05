@@ -461,10 +461,8 @@ main#main{
     text-shadow: none;
   }
 }
-.hero-copy .hero-lead{
-  max-width: min(62ch, 100%);
-  font-size: 1.08rem;
-  margin-top: 16px;
+.hero-copy .hero-subtitle + .hero-cta{
+  margin-top: 24px;
 }
 
 .hero-cta{
@@ -577,15 +575,6 @@ main#main{
   color: var(--heading);
 }
 
-.hero-lead{
-  margin: 22px 0 24px;
-  color: var(--muted);
-  font-size: 1.05rem;
-  line-height: 1.65;
-  max-width: 52ch;
-  animation: fadeUp 1s cubic-bezier(0.22, 1, 0.36, 1) both;
-  animation-delay: .1s;
-}
 .hero-actions{
   display: flex;
   gap: 14px;
