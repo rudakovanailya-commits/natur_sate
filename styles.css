@@ -1189,7 +1189,9 @@ input:focus{
 }
 .work-partnership-foot{
   margin: 22px 0 0;
-  max-width: 48ch;
+  width: 100%;
+  max-width: none;
+  box-sizing: border-box;
   font-size: 1.02rem;
   line-height: 1.62;
 }
