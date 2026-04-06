@@ -1090,34 +1090,30 @@ input:focus{
   }
 }
 
-/* Как проходит работа — три спокойных блока */
+/* Как проходит работа — этапы + отдельный блок о партнёрстве */
 .work-flow-section{
-  padding: clamp(56px, 7vw, 80px) 0;
+  padding: clamp(56px, 7vw, 88px) 0;
 }
 .work-flow-stack{
   display: flex;
   flex-direction: column;
-  gap: clamp(36px, 5vw, 52px);
+  gap: clamp(52px, 8vw, 80px);
 }
 .work-flow-block__head{
-  margin-bottom: clamp(22px, 3.5vw, 32px);
+  margin-bottom: clamp(26px, 4vw, 36px);
 }
 .work-flow-block__head h2{
   margin-bottom: 0;
 }
 .work-steps-lead{
-  margin: 12px 0 0;
-  max-width: 52ch;
-  font-size: 1.05rem;
-  line-height: 1.62;
+  margin: 14px 0 0;
+  max-width: 54ch;
+  font-size: 1.06rem;
+  line-height: 1.65;
   color: var(--muted);
 }
-.work-flow-block--divider{
-  padding-top: clamp(28px, 4vw, 40px);
-  border-top: 1px solid rgba(175, 145, 125, 0.22);
-}
 .work-flow-block__title{
-  margin: 0 0 16px;
+  margin: 0 0 14px;
   font-family: var(--font-display);
   font-size: clamp(1.28rem, 2.4vw, 1.55rem);
   font-weight: 600;
@@ -1125,36 +1121,37 @@ input:focus{
   color: var(--ink);
   letter-spacing: 0.02em;
 }
-.work-principles-list{
-  margin: 0 0 18px;
-  padding-left: 1.15rem;
-  color: var(--muted);
-  font-size: 0.98rem;
-  line-height: 1.58;
-}
-.work-principles-list li{
-  margin: 6px 0;
-  padding-left: 2px;
-}
-.work-flow-block__note{
+.work-partnership-panel{
   margin: 0;
-  max-width: 48ch;
-  font-size: 1.02rem;
-  line-height: 1.62;
+  padding: clamp(26px, 4.5vw, 40px);
+  background: rgba(255, 252, 248, 0.88);
+  border: 1px solid rgba(175, 145, 125, 0.24);
+  border-radius: var(--radius-lg);
+  box-shadow:
+    0 4px 22px rgba(120, 80, 60, 0.07),
+    0 1px 4px rgba(100, 75, 60, 0.04);
 }
-.work-flow-block__intro{
-  margin: 0 0 18px;
-  max-width: 46ch;
-  font-size: 0.98rem;
-  line-height: 1.62;
+.work-partnership-panel .work-flow-block__title{
+  margin-bottom: 12px;
+}
+.work-partnership-panel__intro{
+  margin: 0 0 clamp(22px, 3.5vw, 28px);
+  max-width: 58ch;
+  font-size: 1rem;
+  line-height: 1.65;
 }
 .work-partnership-cols{
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 22px 28px;
+  gap: 24px 32px;
+  align-items: start;
+}
+.work-partnership-col--second{
+  padding-left: clamp(0px, 2vw, 24px);
+  border-left: 1px solid rgba(175, 145, 125, 0.2);
 }
 .work-partnership-label{
-  margin: 0 0 8px;
+  margin: 0 0 10px;
   font-weight: 600;
   font-size: 0.82rem;
   text-transform: uppercase;
@@ -1165,11 +1162,11 @@ input:focus{
   margin: 0;
   padding-left: 1.1rem;
   color: var(--muted);
-  font-size: 0.96rem;
-  line-height: 1.55;
+  font-size: 0.97rem;
+  line-height: 1.58;
 }
 .work-partnership-list li{
-  margin: 5px 0;
+  margin: 6px 0;
 }
 .work-steps{
   list-style: none;
@@ -1177,11 +1174,11 @@ input:focus{
   padding: 0;
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 18px 22px;
+  gap: 20px 24px;
 }
 .work-steps__item{
   margin: 0;
-  padding: 20px 22px;
+  padding: 22px 24px;
   display: flex;
   gap: 16px;
   align-items: flex-start;
@@ -1194,10 +1191,6 @@ input:focus{
 .work-steps__item:hover{
   border-color: rgba(175, 145, 125, 0.3);
   box-shadow: 0 4px 18px rgba(120, 80, 60, 0.07);
-}
-.work-steps__item--compact{
-  align-items: center;
-  padding: 16px 20px;
 }
 .work-steps__num{
   flex-shrink: 0;
@@ -1214,12 +1207,18 @@ input:focus{
   line-height: 1;
 }
 .work-steps__line{
-  margin: 0;
+  margin: 0 0 8px;
   font-family: var(--font-display);
-  font-size: clamp(1.02rem, 1.9vw, 1.12rem);
+  font-size: clamp(1.04rem, 1.9vw, 1.14rem);
   font-weight: 600;
-  line-height: 1.35;
+  line-height: 1.3;
   color: var(--ink);
+}
+.work-steps__hint{
+  margin: 0;
+  font-size: 0.94rem;
+  line-height: 1.6;
+  max-width: 44ch;
 }
 .work-steps__title{
   margin: 0 0 8px;
@@ -1238,14 +1237,21 @@ input:focus{
 @media (max-width: 720px){
   .work-steps{
     grid-template-columns: 1fr;
-    gap: 14px;
+    gap: 16px;
   }
-  .work-steps__body .muted{
+  .work-steps__body .muted,
+  .work-steps__hint{
     max-width: none;
   }
   .work-partnership-cols{
     grid-template-columns: 1fr;
-    gap: 20px;
+    gap: 22px;
+  }
+  .work-partnership-col--second{
+    padding-left: 0;
+    border-left: none;
+    padding-top: 22px;
+    border-top: 1px solid rgba(175, 145, 125, 0.2);
   }
 }
 

@@ -16,7 +16,7 @@
       rel="stylesheet"
     />
 
-    <link rel="stylesheet" href="./styles.css?v=work-flow-1" />
+    <link rel="stylesheet" href="./styles.css?v=work-flow-2" />
   </head>
 
   <body>
@@ -228,67 +228,74 @@
 
       <section class="section reveal-on-scroll work-flow-section" id="how-it-works" aria-labelledby="how-it-works-title">
         <div class="container work-flow-stack">
-          <div class="work-flow-block">
+          <div class="work-flow-block work-flow-block--steps">
             <div class="section-head work-flow-block__head">
               <h2 id="how-it-works-title">Как проходит работа</h2>
               <p class="work-steps-lead">
-                Работа проходит спокойно и поэтапно — с учётом вашего состояния и образа жизни
+                Спокойно и по шагам — смотрим на ваше состояние и на то, как устроена повседневность, без гонки и «идеальных схем».
               </p>
             </div>
-            <ol class="work-steps work-steps--compact" role="list">
-              <li class="work-steps__item work-steps__item--compact">
+            <ol class="work-steps" role="list">
+              <li class="work-steps__item">
                 <span class="work-steps__num" aria-hidden="true">1</span>
-                <p class="work-steps__line">Онлайн-консультация (60 минут)</p>
+                <div class="work-steps__body">
+                  <p class="work-steps__line">Онлайн-консультация (60 минут)</p>
+                  <p class="work-steps__hint muted">
+                    Встречаемся онлайн, успеваем по-настоящему поговорить: что тревожит, чего хочется, с чего хочется начать.
+                  </p>
+                </div>
               </li>
-              <li class="work-steps__item work-steps__item--compact">
+              <li class="work-steps__item">
                 <span class="work-steps__num" aria-hidden="true">2</span>
-                <p class="work-steps__line">Анализ состояния и образа жизни</p>
+                <div class="work-steps__body">
+                  <p class="work-steps__line">Анализ состояния и образа жизни</p>
+                  <p class="work-steps__hint muted">
+                    Собираем картину: питание, сон, нагрузки, самочувствие — не чтобы «оценить», а чтобы понять, где вам сейчас проще опереться.
+                  </p>
+                </div>
               </li>
-              <li class="work-steps__item work-steps__item--compact">
+              <li class="work-steps__item">
                 <span class="work-steps__num" aria-hidden="true">3</span>
-                <p class="work-steps__line">Индивидуальные рекомендации</p>
+                <div class="work-steps__body">
+                  <p class="work-steps__line">Индивидуальные рекомендации</p>
+                  <p class="work-steps__hint muted">
+                    Предлагаю понятные шаги по еде и режиму — такие, которые можно встроить в ваш день, а не отложить «на потом».
+                  </p>
+                </div>
               </li>
-              <li class="work-steps__item work-steps__item--compact">
+              <li class="work-steps__item">
                 <span class="work-steps__num" aria-hidden="true">4</span>
-                <p class="work-steps__line">Поддержка (в зависимости от формата)</p>
+                <div class="work-steps__body">
+                  <p class="work-steps__line">Поддержка (в зависимости от формата)</p>
+                  <p class="work-steps__hint muted">
+                    В сопровождении остаёмся на связи, корректируем план и разбираем вопросы. В разовом формате — уходите с ясным ориентиром на старт.
+                  </p>
+                </div>
               </li>
             </ol>
           </div>
 
-          <div class="work-flow-block work-flow-block--divider">
-            <h3 class="work-flow-block__title" id="work-principles-title">Принципы работы</h3>
-            <ul class="work-principles-list" aria-labelledby="work-principles-title">
-              <li>уважительное отношение</li>
-              <li>конфиденциальность</li>
-              <li>научный подход</li>
-              <li>индивидуальность</li>
-              <li>честность без обещаний быстрых результатов</li>
-              <li>мягкие изменения</li>
-            </ul>
-            <p class="work-flow-block__note muted">
-              Моя задача — помочь вам понять свой организм и поддержать его ресурс
-            </p>
-          </div>
-
-          <div class="work-flow-block work-flow-block--divider">
-            <h3 class="work-flow-block__title" id="work-partnership-title">О партнёрстве</h3>
-            <p class="work-flow-block__intro muted">
-              Работа строится на доверии: вы несёте знание о себе, я — опору в питании и режиме.
-            </p>
-            <div class="work-partnership-cols">
-              <div class="work-partnership-col">
-                <p class="work-partnership-label">Моя ответственность</p>
-                <ul class="work-partnership-list">
-                  <li>рекомендации в рамках компетенции и ваших данных</li>
-                  <li>бережная коммуникация и конфиденциальность</li>
-                </ul>
-              </div>
-              <div class="work-partnership-col">
-                <p class="work-partnership-label">Ответственность клиента</p>
-                <ul class="work-partnership-list">
-                  <li>честность о самочувствии и привычках</li>
-                  <li>медицинские решения — вместе с врачом при необходимости</li>
-                </ul>
+          <div class="work-flow-block work-flow-block--partnership">
+            <div class="work-partnership-panel">
+              <h3 class="work-flow-block__title" id="work-partnership-title">О партнёрстве</h3>
+              <p class="work-partnership-panel__intro muted">
+                Здесь мы не «лечим за вас» и не тянем в одну сторону силой — договариваемся о формате и идём рядом: вы со знанием себя, я с опорой в питании и режиме.
+              </p>
+              <div class="work-partnership-cols">
+                <div class="work-partnership-col">
+                  <p class="work-partnership-label">Моя ответственность</p>
+                  <ul class="work-partnership-list">
+                    <li>рекомендации из моей компетенции и по тем данным, что вы даёте</li>
+                    <li>бережное общение и конфиденциальность</li>
+                  </ul>
+                </div>
+                <div class="work-partnership-col work-partnership-col--second">
+                  <p class="work-partnership-label">Ответственность клиента</p>
+                  <ul class="work-partnership-list">
+                    <li>честно рассказывать о самочувствии и привычках</li>
+                    <li>по вопросам лечения и диагнозов — опора на врача, когда это нужно</li>
+                  </ul>
+                </div>
               </div>
             </div>
           </div>
