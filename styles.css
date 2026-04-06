@@ -1147,9 +1147,15 @@ input:focus{
 }
 .work-partnership-bridge{
   margin: 18px 0 22px;
-  max-width: 46ch;
+  max-width: none;
   font-size: 0.98rem;
   line-height: 1.55;
+  white-space: nowrap;
+}
+@media (max-width: 520px){
+  .work-partnership-bridge{
+    white-space: normal;
+  }
 }
 .work-partnership-cols{
   display: grid;
