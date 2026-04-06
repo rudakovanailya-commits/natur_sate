@@ -11,7 +11,7 @@
       href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700&family=Literata:ital,wght@0,400;0,500;0,600&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="./styles.css" />
+    <link rel="stylesheet" href="./styles.css?v=politika-pdf-1" />
   </head>
   <body>
     <a class="skip-link" href="#legal-main">Перейти к тексту</a>
@@ -23,24 +23,24 @@
           <a href="./index.html">← На главную</a>
         </nav>
 
+        <!-- Положите файл «Политика обработки персональных данных.pdf» в ту же папку, что и эта страница. -->
         <article class="legal-article card">
           <h1>Политика обработки персональных данных</h1>
-          <p class="legal-meta muted">
-            Вставьте сюда утверждённый текст политики (152-ФЗ). Ниже — ориентировочные разделы; замените содержание на
-            соответствующее вашей практике.
+          <p class="legal-meta muted">Полный текст политики в формате PDF (152-ФЗ).</p>
+
+          <div class="legal-pdf-wrap">
+            <iframe
+              class="legal-pdf-frame"
+              title="Политика обработки персональных данных — документ PDF"
+              src="./Политика обработки персональных данных.pdf"
+            ></iframe>
+          </div>
+          <p class="legal-pdf-actions muted">
+            Не отображается в окне?
+            <a href="./Политика обработки персональных данных.pdf" target="_blank" rel="noopener">Открыть PDF</a>
+            ·
+            <a href="./Политика обработки персональных данных.pdf" download>Скачать</a>
           </p>
-
-          <h2>1. Общие положения</h2>
-          <p class="muted">Кто является оператором, цели обработки, правовые основания.</p>
-
-          <h2>2. Какие данные обрабатываются</h2>
-          <p class="muted">Перечень категорий ПДн (имя, телефон, цель обращения и т.д.).</p>
-
-          <h2>3. Сроки и меры защиты</h2>
-          <p class="muted">Хранение, передача третьим лицам (если есть), права субъекта.</p>
-
-          <h2>4. Контакты по вопросам ПДн</h2>
-          <p class="muted">E-mail или иной способ обращения оператора.</p>
         </article>
       </div>
     </main>
