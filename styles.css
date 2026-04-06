@@ -1123,7 +1123,7 @@ input:focus{
 }
 .work-partnership-panel{
   margin: 0;
-  padding: clamp(26px, 4.5vw, 42px);
+  padding: clamp(30px, 5vw, 48px);
   background: rgba(255, 252, 248, 0.88);
   border: 1px solid rgba(175, 145, 125, 0.24);
   border-radius: var(--radius-lg);
@@ -1132,13 +1132,13 @@ input:focus{
     0 1px 4px rgba(100, 75, 60, 0.04);
 }
 .work-partnership-panel .work-flow-block__title{
-  margin-bottom: 16px;
+  margin-bottom: 18px;
 }
 .work-partnership-intro{
   max-width: 58ch;
 }
 .work-partnership-intro p{
-  margin: 0 0 12px;
+  margin: 0 0 14px;
   font-size: 1rem;
   line-height: 1.65;
 }
@@ -1146,7 +1146,7 @@ input:focus{
   margin-bottom: 0;
 }
 .work-partnership-bridge{
-  margin: 18px 0 22px;
+  margin: 22px 0 26px;
   max-width: none;
   font-size: 0.98rem;
   line-height: 1.55;
@@ -1160,11 +1160,11 @@ input:focus{
 .work-partnership-cols{
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 18px 20px;
+  gap: 20px 24px;
   align-items: stretch;
 }
 .work-partnership-card{
-  padding: 18px 20px;
+  padding: 20px 22px;
   background: rgba(255, 255, 255, 0.45);
   border: 1px solid rgba(175, 145, 125, 0.16);
   border-radius: var(--radius-md);
@@ -1188,12 +1188,17 @@ input:focus{
   margin: 6px 0;
 }
 .work-partnership-foot{
-  margin: 22px 0 0;
+  margin: 28px 0 0;
+  padding-top: 20px;
   width: 100%;
   max-width: none;
   box-sizing: border-box;
-  font-size: 1.02rem;
-  line-height: 1.62;
+  font-size: 1.05rem;
+  line-height: 1.65;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  color: var(--ink-soft);
+  border-top: 1px solid rgba(175, 145, 125, 0.2);
 }
 .work-steps{
   list-style: none;
