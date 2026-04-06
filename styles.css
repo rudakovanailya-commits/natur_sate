@@ -2299,24 +2299,31 @@ input:focus{
 
 /* Footer */
 .site-footer{
-  padding: 40px 0 26px;
+  padding: clamp(44px, 6vw, 64px) 0 clamp(32px, 4vw, 44px);
   border-top: 1px solid var(--border);
   background: linear-gradient(180deg, rgba(255, 248, 242, 0.94) 0%, rgba(245, 235, 226, 0.9) 100%);
   position: relative;
-  /* Выше body::after (z-index: 1), иначе вуаль перекрывает подвал */
   z-index: 2;
 }
-.footer-inner{
+.footer-shell{
+  display: flex;
+  flex-direction: column;
+  gap: clamp(28px, 4vw, 40px);
+}
+.footer-columns{
   display: grid;
-  grid-template-columns: 1fr auto;
-  gap: 20px;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+  gap: clamp(28px, 4vw, 48px);
   align-items: start;
+}
+.footer-col--brand{
+  max-width: 40rem;
 }
 .footer-brand{
   display: flex;
   gap: 14px;
   align-items: center;
-  margin-bottom: 12px;
+  margin-bottom: 14px;
 }
 .footer-brand b{
   font-family: var(--font-display);
@@ -2324,33 +2331,71 @@ input:focus{
   font-weight: 600;
 }
 .footer-note{
-  margin: 0;
+  margin: 0 0 18px;
   color: var(--muted);
   line-height: 1.72;
-  max-width: 68ch;
   font-size: 14px;
 }
-.footer-right{
+.footer-copy{
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.55;
+  font-weight: 500;
+}
+.footer-nav{
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  align-items: flex-end;
+  gap: 4px;
 }
-.footer-right a{
+.footer-nav a{
+  display: inline-block;
+  padding: 6px 0;
   color: var(--muted);
-  font-weight: 600;
-  font-size: 14px;
-  padding: 10px 14px;
-  border-radius: var(--radius-md);
-  background: var(--surface);
-  border: 1px solid var(--border);
-  width: fit-content;
+  font-weight: 500;
+  font-size: 15px;
+  line-height: 1.45;
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: color 0.2s ease, border-color 0.2s ease;
 }
-.footer-right a:hover{
-  background: var(--surface-elevated);
+.footer-nav a:hover{
   color: var(--text);
+  border-bottom-color: rgba(175, 145, 125, 0.45);
 }
+.footer-legal-row{
+  padding-top: clamp(22px, 3vw, 28px);
+  border-top: 1px solid rgba(175, 145, 125, 0.22);
+  text-align: center;
+}
+.footer-legal-row .footer-legal{
+  justify-content: center;
+}
+.footer-legal{
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 8px 14px;
+  align-items: center;
+  justify-content: center;
+}
+.footer-legal-sep{
+  color: var(--muted-2);
+  user-select: none;
+}
+.footer-legal a{
+  color: var(--muted);
+  font-weight: 500;
+  font-size: 14px;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-color: rgba(90, 62, 54, 0.35);
+}
+.footer-legal a:hover{
+  color: var(--text);
+  text-decoration-color: rgba(90, 62, 54, 0.55);
+}
+/* Юридические подстраницы (компактный подвал) */
 .footer-bottom{
-  margin-top: 22px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -2359,23 +2404,6 @@ input:focus{
   color: var(--muted-2);
   font-weight: 500;
   font-size: 13px;
-}
-.footer-legal{
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px 18px;
-  align-items: center;
-}
-.footer-legal a{
-  color: var(--muted);
-  font-weight: 600;
-  text-decoration: underline;
-  text-underline-offset: 3px;
-  text-decoration-color: rgba(90, 62, 54, 0.35);
-}
-.footer-legal a:hover{
-  color: var(--text);
-  text-decoration-color: rgba(90, 62, 54, 0.55);
 }
 
 /* Юридические страницы (оферта, политика ПДн) */
@@ -2534,8 +2562,19 @@ input:focus{
   .burger{ display: inline-flex; align-items: center; justify-content: center; }
   .mobile-nav{ position: relative; }
   .hero-mini{ grid-template-columns: 1fr; }
-  .footer-inner{ grid-template-columns: 1fr; }
-  .footer-right{ flex-direction: row; flex-wrap: wrap; }
+  .footer-columns{
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+  .footer-nav{
+    align-items: flex-start;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 8px 20px;
+  }
+  .footer-nav a{
+    padding: 4px 0;
+  }
 }
 
 /* Reduced motion */
