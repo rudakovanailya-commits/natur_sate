@@ -232,6 +232,18 @@
     });
   }
 
+  const faqAccordion = $("#faq-accordion");
+  if (faqAccordion) {
+    faqAccordion.querySelectorAll("details.faq-item").forEach((details) => {
+      details.addEventListener("toggle", () => {
+        if (!details.open) return;
+        faqAccordion.querySelectorAll("details.faq-item").forEach((other) => {
+          if (other !== details) other.removeAttribute("open");
+        });
+      });
+    });
+  }
+
   const consultFlowToggle = $("#consultFlowToggle");
   const consultFlowWrap = $("#consultFlowWrap");
   if (consultFlowToggle && consultFlowWrap) {

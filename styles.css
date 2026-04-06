@@ -1808,12 +1808,38 @@ input:focus{
 .faq-item summary{
   list-style: none;
   cursor: pointer;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
   font-family: var(--font-display);
   font-weight: 600;
   font-size: clamp(1.05rem, 2vw, 1.2rem);
   line-height: 1.35;
   outline: none;
-  padding-right: 8px;
+}
+.faq-item__q{
+  flex: 1;
+  min-width: 0;
+}
+.faq-item summary::after{
+  content: "";
+  flex-shrink: 0;
+  width: 0.55em;
+  height: 0.55em;
+  margin-top: 0.38em;
+  border-right: 2px solid var(--ink-soft);
+  border-bottom: 2px solid var(--ink-soft);
+  opacity: 0.55;
+  transform: rotate(45deg);
+  transition:
+    transform 0.22s ease,
+    opacity 0.2s ease;
+}
+.faq-item[open] summary::after{
+  transform: rotate(-135deg);
+  margin-top: 0.52em;
+  opacity: 0.75;
 }
 .faq-item summary:focus-visible{
   border-radius: 6px;
@@ -1852,6 +1878,13 @@ input:focus{
   border-color: rgba(175, 145, 125, 0.4);
   background: rgba(255, 250, 244, 0.92);
   box-shadow: var(--shadow-card-hover);
+}
+.faq-foot{
+  margin: clamp(22px, 3.5vw, 32px) auto 0;
+  max-width: 42rem;
+  text-align: center;
+  font-size: 1rem;
+  line-height: 1.65;
 }
 
 /* Contact */

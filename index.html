@@ -16,7 +16,7 @@
       rel="stylesheet"
     />
 
-    <link rel="stylesheet" href="./styles.css?v=faq-1" />
+    <link rel="stylesheet" href="./styles.css?v=faq-2" />
   </head>
 
   <body>
@@ -444,9 +444,9 @@
             <h2 id="faq-title">Вопросы, которые возникают перед началом</h2>
           </div>
 
-          <div class="faq">
+          <div class="faq" id="faq-accordion">
             <details class="faq-item">
-              <summary>Как проходит консультация?</summary>
+              <summary><span class="faq-item__q">Как проходит консультация?</span></summary>
               <div class="faq-body">
                 <p>Онлайн (видео или аудио), длительность — около 60 минут.</p>
                 <p>
@@ -456,7 +456,7 @@
             </details>
 
             <details class="faq-item">
-              <summary>Конфиденциальна ли моя информация?</summary>
+              <summary><span class="faq-item__q">Конфиденциальна ли моя информация?</span></summary>
               <div class="faq-body">
                 <p>Да, вся информация, которой вы делитесь, остаётся конфиденциальной.</p>
                 <p>Я не передаю данные третьим лицам и использую их только в рамках нашей работы.</p>
@@ -465,7 +465,7 @@
             </details>
 
             <details class="faq-item">
-              <summary>Нужно ли сдавать анализы заранее?</summary>
+              <summary><span class="faq-item__q">Нужно ли сдавать анализы заранее?</span></summary>
               <div class="faq-body">
                 <p>Нет, это не обязательно.</p>
                 <p>Если анализы есть — мы их разберём.</p>
@@ -474,7 +474,7 @@
             </details>
 
             <details class="faq-item">
-              <summary>А если я уже пробовала разные подходы и не помогло?</summary>
+              <summary><span class="faq-item__q">А если я уже пробовала разные подходы и не помогло?</span></summary>
               <div class="faq-body">
                 <p>Это частая ситуация.</p>
                 <p>Обычно проблема не в вас, а в том, что рекомендации не учитывали ваш образ жизни и состояние.</p>
@@ -483,7 +483,7 @@
             </details>
 
             <details class="faq-item">
-              <summary>Я боюсь, что не смогу всё соблюдать</summary>
+              <summary><span class="faq-item__q">Я боюсь, что не смогу всё соблюдать — что тогда?</span></summary>
               <div class="faq-body">
                 <p>Здесь нет задачи делать идеально.</p>
                 <p>Мы выстраиваем изменения постепенно и в вашем темпе — так, чтобы это можно было встроить в реальную жизнь.</p>
@@ -491,7 +491,7 @@
             </details>
 
             <details class="faq-item">
-              <summary>Есть ли поддержка после консультации?</summary>
+              <summary><span class="faq-item__q">Есть ли поддержка после консультации?</span></summary>
               <div class="faq-body">
                 <p>Да, но она зависит от формата работы.</p>
                 <p>После разовой консультации можно задать уточняющие вопросы в течение ограниченного времени.</p>
@@ -500,7 +500,7 @@
             </details>
 
             <details class="faq-item">
-              <summary>Сколько времени нужно, чтобы увидеть результат?</summary>
+              <summary><span class="faq-item__q">Когда я почувствую первые изменения?</span></summary>
               <div class="faq-body">
                 <p>Первые изменения многие замечают уже в процессе.</p>
                 <p>Но устойчивый результат — это постепенная работа, а не быстрые решения.</p>
@@ -508,7 +508,7 @@
             </details>
 
             <details class="faq-item">
-              <summary>Подойдёт ли это, если у меня есть диагноз?</summary>
+              <summary><span class="faq-item__q">Подойдёт ли это, если у меня есть диагноз?</span></summary>
               <div class="faq-body">
                 <p>Консультация не заменяет врача.</p>
                 <p>Но может быть хорошей поддержкой: мы работаем с питанием, образом жизни и ресурсом организма.</p>
@@ -516,7 +516,7 @@
             </details>
 
             <details class="faq-item">
-              <summary>На чём основан ваш подход?</summary>
+              <summary><span class="faq-item__q">Как вы работаете с клиентами?</span></summary>
               <div class="faq-body">
                 <p>В работе для меня важно:</p>
                 <ul class="faq-list">
@@ -531,6 +531,10 @@
               </div>
             </details>
           </div>
+
+          <p class="faq-foot muted">
+            Если у вас остался вопрос — вы можете задать его при записи
+          </p>
         </div>
       </section>
 
