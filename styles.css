@@ -1193,6 +1193,7 @@ input:focus{
   width: 100%;
   max-width: none;
   box-sizing: border-box;
+  text-align: center;
   font-size: 1.05rem;
   line-height: 1.65;
   font-weight: 500;
