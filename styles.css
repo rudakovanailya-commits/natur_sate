@@ -79,7 +79,7 @@ body::before{
   background-repeat: no-repeat;
   background-position: center center;
   background-size: cover;
-  background-attachment: fixed;
+  background-attachment: scroll;
   pointer-events: none;
 }
 
@@ -103,12 +103,6 @@ body::after{
 /* Декоративные блики под оверлеем не нужны — убираем лишнюю отрисовку */
 .page-bloom{
   display: none;
-}
-
-@media (max-width: 768px){
-  body::before{
-    background-attachment: scroll;
-  }
 }
 
 /* Без multiply — он затемняет светлый фон. Лёгкая фактура, почти незаметная */
@@ -144,32 +138,9 @@ html.js-reveal-ready .reveal-on-scroll.is-visible{
   to{ opacity: 1; transform: translateY(0); }
 }
 
-/* Портрет hero: только плавное появление, без scale и сдвига */
-@keyframes heroPortraitIn{
-  from{ opacity: 0; }
-  to{ opacity: 1; }
-}
-
 @keyframes badgeIn{
   from{ opacity: 0; transform: translateY(12px) scale(.97); }
   to{ opacity: 1; transform: translateY(0) scale(1); }
-}
-
-@keyframes panelIn{
-  from{ opacity: 0; transform: translateY(22px) rotate(-0.4deg); }
-  to{ opacity: 1; transform: translateY(0) rotate(0); }
-}
-
-@keyframes floatGlow{
-  0%{ transform: translate(0, 0); opacity: .75; }
-  50%{ transform: translate(10px, -12px); opacity: 1; }
-  100%{ transform: translate(0, 0); opacity: .75; }
-}
-
-@keyframes ctaShine{
-  0%{ box-shadow: 0 0 0 0 rgba(160, 120, 100, 0); }
-  40%{ box-shadow: 0 0 0 10px rgba(140, 100, 80, 0.08); }
-  100%{ box-shadow: 0 0 0 0 rgba(160, 120, 100, 0); }
 }
 
 main#main{
@@ -409,7 +380,6 @@ main#main{
   object-fit: cover;
   object-position: center 25%;
   border-radius: 24px 24px 24px 8px;
-  animation: heroPortraitIn 0.8s ease-out 0.06s both;
 }
 .hero-copy .hero-title{
   max-width: min(30ch, 100%);
@@ -2542,9 +2512,6 @@ input:focus{
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce){
   html{ scroll-behavior: auto; }
-  body::before{
-    background-position: center center;
-  }
   html.js-reveal-ready .reveal-on-scroll:not(.is-visible){
     opacity: 1;
     transform: none;
@@ -2556,10 +2523,5 @@ input:focus{
     animation-duration: .001ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: .001ms !important;
-  }
-  .hero-portrait img{
-    animation: none !important;
-    opacity: 1 !important;
-    transform: none !important;
   }
 }
