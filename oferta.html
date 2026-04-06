@@ -11,7 +11,7 @@
       href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700&family=Literata:ital,wght@0,400;0,500;0,600&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="./styles.css" />
+    <link rel="stylesheet" href="./styles.css?v=oferta-pdf-1" />
   </head>
   <body>
     <a class="skip-link" href="#legal-main">Перейти к тексту</a>
@@ -23,27 +23,24 @@
           <a href="./index.html">← На главную</a>
         </nav>
 
+        <!-- Положите файл Оферта.pdf в ту же папку, что и эта страница (корень сайта). -->
         <article class="legal-article card">
           <h1>Публичная оферта</h1>
-          <p class="legal-meta muted">
-            Разместите здесь полный текст оферты (по согласованию с юристом). Ниже — пример структуры, замените блоки на
-            актуальные формулировки.
+          <p class="legal-meta muted">Полный текст договора оферты в формате PDF.</p>
+
+          <div class="legal-pdf-wrap">
+            <iframe
+              class="legal-pdf-frame"
+              title="Публичная оферта — документ PDF"
+              src="./Оферта.pdf"
+            ></iframe>
+          </div>
+          <p class="legal-pdf-actions muted">
+            Не отображается в окне?
+            <a href="./Оферта.pdf" target="_blank" rel="noopener">Открыть PDF</a>
+            ·
+            <a href="./Оферта.pdf" download>Скачать</a>
           </p>
-
-          <h2>1. Общие положения</h2>
-          <p class="muted">
-            Настоящий документ является публичной офертой в адрес физических лиц на оказание информационно-консультационных
-            услуг в сфере нутрициологии в дистанционном формате.
-          </p>
-
-          <h2>2. Предмет</h2>
-          <p class="muted">Опишите, какие именно услуги входят в оферту, форматы, ограничения (не медицинские услуги и т.д.).</p>
-
-          <h2>3. Акцепт и оплата</h2>
-          <p class="muted">Порядок заключения договора, оплаты, отмены и возврата.</p>
-
-          <h2>4. Реквизиты</h2>
-          <p class="muted">Исполнитель: ФИО / ИП, ИНН, контакты, банковские реквизиты при необходимости.</p>
         </article>
       </div>
     </main>

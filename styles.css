@@ -2429,6 +2429,35 @@ input:focus{
   line-height: 1.72;
   font-size: 16px;
 }
+.legal-pdf-wrap{
+  margin: 18px 0 0;
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  background: rgba(255, 252, 248, 0.65);
+  min-height: min(75vh, 900px);
+}
+.legal-pdf-frame{
+  display: block;
+  width: 100%;
+  min-height: min(75vh, 900px);
+  border: 0;
+}
+.legal-pdf-actions{
+  margin: 14px 0 0;
+  font-size: 15px;
+  line-height: 1.6;
+  text-align: center;
+}
+.legal-pdf-actions a{
+  font-weight: 600;
+  color: var(--ink-soft);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.legal-pdf-actions a:hover{
+  color: var(--text);
+}
 .site-footer.legal-footer-min{
   padding: 20px 0 24px;
 }
