@@ -200,53 +200,13 @@
                 Вы узнаете, какие сигналы важно не игнорировать<br />
                 и на что обратить внимание в первую очередь.
               </p>
-              <div class="checklist-lead__actions">
-                <button
-                  type="button"
-                  class="btn btn-primary"
-                  id="checklistToggleBtn"
-                  aria-expanded="false"
-                  aria-controls="checklistFormPanel"
-                >
-                  Получить чек-лист
-                </button>
-              </div>
-
-              <div class="checklist-lead__form-wrap" id="checklistFormPanel" hidden>
-                <form
-                  action="https://formspree.io/f/xreojkoj"
-                  method="POST"
-                  class="lead-form checklist-lead__form"
-                  id="checklistForm"
-                >
-                  <input type="hidden" name="_subject" value="Запрос чек-листа: восстановление энергии" />
-                  <input
-                    type="text"
-                    name="name"
-                    placeholder="Ваше имя"
-                    required
-                    autocomplete="name"
-                  />
-                  <input
-                    type="email"
-                    name="email"
-                    placeholder="Ваш email"
-                    required
-                    autocomplete="email"
-                  />
-                  <p class="checklist-lead__error" id="checklistFormError" hidden role="alert"></p>
-                  <button type="submit" class="btn btn-primary checklist-lead__submit" id="checklistSubmitBtn">
-                    Получить чек-лист
-                  </button>
-                  <p class="checklist-lead__consent muted">
-                    Нажимая кнопку, вы соглашаетесь с обработкой персональных данных
-                  </p>
+              <div class="checklist-lead__form-wrap">
+                <form action="https://formspree.io/f/xreojkoj" method="POST" class="lead-form checklist-lead__form">
+                  <input type="text" name="name" placeholder="Ваше имя" required autocomplete="name" />
+                  <input type="email" name="email" placeholder="Ваш email" required autocomplete="email" />
+                  <button type="submit" class="btn btn-primary checklist-lead__submit">Получить чек-лист</button>
                 </form>
               </div>
-
-              <p class="checklist-lead__success muted" id="checklistSuccess" hidden role="status" aria-live="polite">
-                Спасибо! Проверьте вашу почту
-              </p>
             </div>
           </section>
         </div>
