@@ -1000,6 +1000,44 @@ input:focus{
   font-size: 12px;
   line-height: 1.45;
 }
+.checklist-lead__success-card{
+  display: none;
+  margin-top: 18px;
+  padding: 20px;
+  background: rgba(247, 243, 241, 0.9);
+  border-radius: 12px;
+  text-align: center;
+  border: 1px solid rgba(185, 150, 130, 0.2);
+}
+.checklist-lead__success-card:target{
+  display: block;
+}
+.checklist-lead__success-card:target + .checklist-lead__form{
+  display: none;
+}
+.checklist-lead__success-title{
+  margin: 0 0 10px;
+  font-family: var(--font-display);
+  font-weight: 600;
+  color: var(--heading);
+  font-size: 1.25rem;
+  line-height: 1.2;
+}
+.checklist-lead__success-text{
+  margin: 0 0 8px;
+}
+.checklist-lead__download{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 10px;
+  width: min(100%, 18rem);
+}
+.checklist-lead__success-note{
+  margin: 14px 0 0;
+  font-size: 14px;
+  color: var(--muted-2);
+}
 .checklist-lead__success{
   margin: 16px 0 0;
   text-align: center;
