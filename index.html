@@ -16,7 +16,7 @@
       rel="stylesheet"
     />
 
-    <link rel="stylesheet" href="./styles.css?v=checklist-lead-5" />
+    <link rel="stylesheet" href="./styles.css?v=checklist-lead-6" />
   </head>
 
   <body>
@@ -213,15 +213,28 @@
               </div>
 
               <div class="checklist-lead__form-wrap" id="checklistFormPanel" hidden>
-                <form class="checklist-lead__form" id="checklistForm" novalidate>
-                  <div class="field">
-                    <label class="label" for="checklistName">Имя</label>
-                    <input id="checklistName" name="name" type="text" required autocomplete="name" />
-                  </div>
-                  <div class="field">
-                    <label class="label" for="checklistEmail">Email</label>
-                    <input id="checklistEmail" name="email" type="email" required autocomplete="email" />
-                  </div>
+                <!-- Замените YOUR_FORM_ID на id из https://formspree.io (путь /f/...) -->
+                <form
+                  action="https://formspree.io/f/YOUR_FORM_ID"
+                  method="POST"
+                  class="lead-form checklist-lead__form"
+                  id="checklistForm"
+                >
+                  <input type="hidden" name="_subject" value="Запрос чек-листа: восстановление энергии" />
+                  <input
+                    type="text"
+                    name="name"
+                    placeholder="Ваше имя"
+                    required
+                    autocomplete="name"
+                  />
+                  <input
+                    type="email"
+                    name="email"
+                    placeholder="Ваш email"
+                    required
+                    autocomplete="email"
+                  />
                   <p class="checklist-lead__error" id="checklistFormError" hidden role="alert"></p>
                   <button type="submit" class="btn btn-primary checklist-lead__submit" id="checklistSubmitBtn">
                     Получить чек-лист

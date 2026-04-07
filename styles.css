@@ -967,6 +967,9 @@ input:focus{
   text-align: left;
   align-items: end;
 }
+.checklist-lead__form.lead-form{
+  align-items: stretch;
+}
 .checklist-lead__form .field{
   margin: 0;
 }

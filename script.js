@@ -170,12 +170,6 @@
   const MAKE_CONTACT_WEBHOOK =
     "https://hook.eu1.make.com/klftvhij43ghedghj6b839ftoldwgp47";
 
-  /**
-   * Чек-лист: Formspree — создайте форму на https://formspree.io, скопируйте URL вида https://formspree.io/f/xxxxxx
-   * SendPulse и др.: укажите URL, который принимает POST (JSON) с полями name и email.
-   */
-  const CHECKLIST_FORM_ENDPOINT = "";
-
   const contactFormEl = document.getElementById("contactForm");
   const contactStatusEl = $("#contactStatus");
   const contactConsentEl = $("#contactConsent");
@@ -270,16 +264,20 @@
         checklistFormError.textContent = "";
       }
 
-      const nameEl = checklistForm.querySelector("#checklistName");
-      const emailEl = checklistForm.querySelector("#checklistEmail");
+      const nameEl = checklistForm.querySelector('[name="name"]');
+      const emailEl = checklistForm.querySelector('[name="email"]');
       const name = nameEl ? String(nameEl.value || "").trim() : "";
       const email = emailEl ? String(emailEl.value || "").trim() : "";
       if (!name || !email) return;
 
-      if (!CHECKLIST_FORM_ENDPOINT || !CHECKLIST_FORM_ENDPOINT.startsWith("http")) {
+      const endpoint = String(checklistForm.getAttribute("action") || "").trim();
+      const endpointOk =
+        /^https?:\/\//i.test(endpoint) && !/YOUR_FORM_ID/i.test(endpoint);
+
+      if (!endpointOk) {
         if (checklistFormError) {
           checklistFormError.textContent =
-            "Укажите в script.js адрес отправки: константа CHECKLIST_FORM_ENDPOINT (Formspree или ваш endpoint).";
+            "В форме чек-листа в атрибуте action укажите URL Formspree (https://formspree.io/f/…) — замените YOUR_FORM_ID на ваш id.";
           checklistFormError.hidden = false;
         }
         return;
@@ -287,18 +285,13 @@
 
       checklistSubmitBtn.disabled = true;
       try {
-        const res = await fetch(CHECKLIST_FORM_ENDPOINT, {
+        const body = new FormData(checklistForm);
+        body.set("_replyto", email);
+
+        const res = await fetch(endpoint, {
           method: "POST",
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            name,
-            email,
-            _replyto: email,
-            _subject: "Запрос чек-листа: восстановление энергии",
-          }),
+          headers: { Accept: "application/json" },
+          body,
         });
         const data = await res.json().catch(() => ({}));
         if (!res.ok) {
