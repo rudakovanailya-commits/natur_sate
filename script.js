@@ -271,13 +271,12 @@
       if (!name || !email) return;
 
       const endpoint = String(checklistForm.getAttribute("action") || "").trim();
-      const endpointOk =
-        /^https?:\/\//i.test(endpoint) && !/YOUR_FORM_ID/i.test(endpoint);
+      const endpointOk = /^https?:\/\//i.test(endpoint);
 
       if (!endpointOk) {
         if (checklistFormError) {
           checklistFormError.textContent =
-            "В форме чек-листа в атрибуте action укажите URL Formspree (https://formspree.io/f/…) — замените YOUR_FORM_ID на ваш id.";
+            "Не найден корректный URL отправки. Проверьте атрибут action у формы чек-листа.";
           checklistFormError.hidden = false;
         }
         return;

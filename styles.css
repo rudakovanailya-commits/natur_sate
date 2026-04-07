@@ -993,6 +993,13 @@ input:focus{
   font-size: 15px;
   font-weight: 600;
 }
+.checklist-lead__consent{
+  grid-column: 1 / -1;
+  margin: 8px 0 0;
+  text-align: center;
+  font-size: 12px;
+  line-height: 1.45;
+}
 .checklist-lead__success{
   margin: 16px 0 0;
   text-align: center;
