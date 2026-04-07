@@ -892,50 +892,59 @@ input:focus{
   margin-right: auto;
 }
 
-/* Чек-лист сразу после «Постепенно вам станет легче» — компактный блок */
+/* Чек-лист сразу после «Постепенно вам станет легче» */
 .checklist-lead{
-  margin-top: clamp(18px, 2.8vw, 28px);
-  padding: 0 0 clamp(6px, 1.5vw, 14px);
+  margin-top: clamp(36px, 5.5vw, 52px);
+  margin-bottom: clamp(32px, 5vw, 48px);
+  padding: clamp(14px, 2.2vw, 22px) 0;
   width: 100%;
 }
 .checklist-lead__inner{
-  max-width: 38rem;
+  width: 68%;
+  max-width: 50rem;
   margin: 0 auto;
-  padding: clamp(22px, 3.2vw, 30px) clamp(20px, 3vw, 32px);
-  background: rgba(255, 252, 248, 0.72);
-  border: 1px solid rgba(185, 150, 130, 0.22);
+  padding: clamp(34px, 4.8vw, 48px) clamp(30px, 4.5vw, 52px);
+  background: rgba(255, 252, 248, 0.78);
+  border: 1px solid rgba(185, 150, 130, 0.26);
   border-radius: var(--radius-lg);
   box-shadow:
-    0 3px 22px rgba(120, 80, 60, 0.055),
-    0 1px 0 rgba(255, 255, 255, 0.4) inset;
+    0 6px 32px rgba(120, 80, 60, 0.08),
+    0 1px 0 rgba(255, 255, 255, 0.45) inset;
   text-align: center;
 }
 .checklist-lead__title{
-  margin: 0 0 12px;
+  margin: 0 0 clamp(14px, 2vw, 18px);
   font-family: var(--font-display);
-  font-size: clamp(1.38rem, 2.5vw, 1.78rem);
+  font-size: clamp(1.45rem, 2.65vw, 1.9rem);
   font-weight: 600;
   letter-spacing: 0.02em;
   line-height: 1.2;
   color: var(--heading);
 }
 .checklist-lead__text{
-  margin: 0 auto 10px;
-  max-width: 42ch;
-  font-size: 0.98rem;
-  line-height: 1.65;
+  margin: 0 auto 12px;
+  max-width: 50ch;
+  font-size: 1.02rem;
+  line-height: 1.68;
 }
 .checklist-lead__text:last-of-type{
-  margin-bottom: 18px;
+  margin-bottom: clamp(22px, 3vw, 28px);
 }
 .checklist-lead__cta{
   display: flex;
   justify-content: center;
+  margin-top: 4px;
 }
 .checklist-lead__cta .btn{
-  min-width: min(100%, 14rem);
-  padding: 12px 22px;
-  font-size: 14px;
+  min-width: min(100%, 17rem);
+  padding: 15px 30px;
+  font-size: 15px;
+  font-weight: 600;
+}
+@media (max-width: 640px){
+  .checklist-lead__inner{
+    width: min(100%, 92%);
+  }
 }
 
 /* После «Подходит…»: результат, много воздуха, лёгкие карточки */
