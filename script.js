@@ -170,6 +170,12 @@
   const MAKE_CONTACT_WEBHOOK =
     "https://hook.eu1.make.com/klftvhij43ghedghj6b839ftoldwgp47";
 
+  /**
+   * Чек-лист: Formspree — создайте форму на https://formspree.io, скопируйте URL вида https://formspree.io/f/xxxxxx
+   * SendPulse и др.: укажите URL, который принимает POST (JSON) с полями name и email.
+   */
+  const CHECKLIST_FORM_ENDPOINT = "";
+
   const contactFormEl = document.getElementById("contactForm");
   const contactStatusEl = $("#contactStatus");
   const contactConsentEl = $("#contactConsent");
@@ -229,6 +235,88 @@
   if (contactFormEl && contactSubmitBtn) {
     contactFormEl.addEventListener("reset", () => {
       contactSubmitBtn.disabled = true;
+    });
+  }
+
+  const checklistToggleBtn = document.getElementById("checklistToggleBtn");
+  const checklistFormPanel = document.getElementById("checklistFormPanel");
+  const checklistForm = document.getElementById("checklistForm");
+  const checklistFormError = document.getElementById("checklistFormError");
+  const checklistSuccess = document.getElementById("checklistSuccess");
+  const checklistSubmitBtn = document.getElementById("checklistSubmitBtn");
+
+  if (checklistToggleBtn && checklistFormPanel) {
+    checklistToggleBtn.addEventListener("click", () => {
+      if (checklistSuccess && !checklistSuccess.hidden) return;
+      const open = checklistFormPanel.hidden;
+      checklistFormPanel.hidden = !open;
+      checklistToggleBtn.setAttribute("aria-expanded", String(open));
+      if (open && checklistFormError) {
+        checklistFormError.hidden = true;
+        checklistFormError.textContent = "";
+      }
+      if (open) {
+        const first = checklistFormPanel.querySelector("input");
+        if (first) window.setTimeout(() => first.focus(), 80);
+      }
+    });
+  }
+
+  if (checklistForm && checklistSubmitBtn) {
+    checklistForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      if (checklistFormError) {
+        checklistFormError.hidden = true;
+        checklistFormError.textContent = "";
+      }
+
+      const nameEl = checklistForm.querySelector("#checklistName");
+      const emailEl = checklistForm.querySelector("#checklistEmail");
+      const name = nameEl ? String(nameEl.value || "").trim() : "";
+      const email = emailEl ? String(emailEl.value || "").trim() : "";
+      if (!name || !email) return;
+
+      if (!CHECKLIST_FORM_ENDPOINT || !CHECKLIST_FORM_ENDPOINT.startsWith("http")) {
+        if (checklistFormError) {
+          checklistFormError.textContent =
+            "Укажите в script.js адрес отправки: константа CHECKLIST_FORM_ENDPOINT (Formspree или ваш endpoint).";
+          checklistFormError.hidden = false;
+        }
+        return;
+      }
+
+      checklistSubmitBtn.disabled = true;
+      try {
+        const res = await fetch(CHECKLIST_FORM_ENDPOINT, {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            name,
+            email,
+            _replyto: email,
+            _subject: "Запрос чек-листа: восстановление энергии",
+          }),
+        });
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok) {
+          throw new Error(data.error || `HTTP ${res.status}`);
+        }
+        checklistFormPanel.hidden = true;
+        checklistToggleBtn.hidden = true;
+        if (checklistSuccess) checklistSuccess.hidden = false;
+        checklistForm.reset();
+      } catch (err) {
+        if (checklistFormError) {
+          checklistFormError.textContent =
+            "Не удалось отправить. Проверьте подключение или настройки Formspree и попробуйте снова.";
+          checklistFormError.hidden = false;
+        }
+        console.error(err);
+      }
+      checklistSubmitBtn.disabled = false;
     });
   }
 
