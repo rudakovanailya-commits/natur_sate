@@ -1,0 +1,1474 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#eae5dc" />
+    <title>Квиз: уровень энергии за день</title>
+    <style>
+      :root{
+        --bg: #eae5dc;
+        --text: #1a1d20;
+        --muted: rgba(26,29,32,.72);
+        --muted2: rgba(26,29,32,.52);
+        --stroke: rgba(26,29,32,.10);
+        --accent: #2f6b57;
+        --accent-light: rgba(47,107,87,.12);
+        --accent-warm: #9a6a4a;
+        --bad: #8b4848;
+        --warn: #a08030;
+        --good: #2f6b57;
+        --warn: #8a6234;
+        --bad: #8b4848;
+        --shadow: 0 32px 80px rgba(20,24,28,.12), 0 12px 30px rgba(20,24,28,.08), 0 2px 8px rgba(20,24,28,.06);
+        --shadow-soft: 0 18px 50px rgba(20,24,28,.09), 0 3px 14px rgba(20,24,28,.06);
+        --radius-xl: 28px;
+        --radius-lg: 18px;
+        --focus: rgba(47,107,87,.28);
+      }
+
+      *{ box-sizing: border-box; }
+      html, body{ height: 100%; }
+      body{
+        margin: 0;
+        font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, "Noto Sans", sans-serif;
+        color: var(--text);
+        background:
+          radial-gradient(ellipse 1100px 650px at 15% 5%, rgba(154,106,74,.20), transparent 62%),
+          radial-gradient(ellipse 900px 550px at 88% 8%, rgba(47,107,87,.24), transparent 60%),
+          radial-gradient(ellipse 800px 500px at 50% 98%, rgba(130,116,148,.14), transparent 60%),
+          linear-gradient(178deg, #f0ebe4, #e2dcd3);
+      }
+
+      a, button{ -webkit-tap-highlight-color: transparent; }
+
+      .wrap{
+        min-height: 100%;
+        display: grid;
+        place-items: center;
+        padding: 32px 18px 40px;
+      }
+
+      .shell{ width: min(720px, 100%); }
+
+      /* ─── Верхняя строка ─── */
+      .topline{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        margin: 0 0 16px;
+        padding: 0 8px;
+      }
+      .brand{
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        font-weight: 650;
+        font-size: 14.5px;
+        letter-spacing: 0.1px;
+        color: rgba(26,29,32,.80);
+        user-select: none;
+      }
+      .brand .dot{
+        width: 11px; height: 11px;
+        border-radius: 999px;
+        background: var(--accent);
+        box-shadow: 0 0 0 5px rgba(47,107,87,.14);
+      }
+      .chip{
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 9px 14px;
+        border-radius: 999px;
+        border: 1px solid rgba(26,29,32,.10);
+        background: rgba(255,255,255,.55);
+        backdrop-filter: blur(8px);
+        box-shadow: 0 6px 18px rgba(20,24,28,.06);
+        color: rgba(26,29,32,.68);
+        font-size: 13px;
+      }
+      .chip strong{ font-weight: 700; color: rgba(26,29,32,.88); }
+
+      /* ─── Карточка ─── */
+      .card{
+        position: relative;
+        border-radius: var(--radius-xl);
+        background: linear-gradient(180deg, rgba(255,255,255,.92), rgba(255,255,255,.78));
+        border: 1px solid rgba(255,255,255,.60);
+        box-shadow: var(--shadow), inset 0 1px 0 rgba(255,255,255,.70);
+        overflow: hidden;
+        backdrop-filter: blur(16px);
+      }
+      .card::before{
+        content: "";
+        position: absolute; inset: 0;
+        background:
+          radial-gradient(800px 380px at 8% 0%, rgba(47,107,87,.10), transparent 56%),
+          radial-gradient(700px 340px at 95% 5%, rgba(154,106,74,.08), transparent 55%);
+        pointer-events: none;
+      }
+      .content{
+        position: relative; z-index: 2;
+        padding: 32px 28px 28px;
+      }
+
+      /* ─── Прогресс-бар ─── */
+      .progress{
+        position: relative;
+        margin: 0 0 24px;
+        height: 8px;
+        border-radius: 999px;
+        background: rgba(26,29,32,.07);
+        overflow: hidden;
+        box-shadow: inset 0 1px 2px rgba(20,24,28,.06);
+      }
+      .progress > .bar{
+        height: 100%; width: 0%;
+        border-radius: 999px;
+        background: linear-gradient(90deg, #3a8a6e, var(--accent) 40%, #4bb48e 70%, #78c9aa);
+        background-size: 200% 100%;
+        animation: gradientShift 3s ease infinite;
+        transition: width 620ms cubic-bezier(.18,.82,.18,1);
+        box-shadow: 0 0 12px rgba(47,107,87,.30), 0 0 28px rgba(47,107,87,.15), 0 2px 6px rgba(47,107,87,.20);
+        position: relative;
+      }
+      .progress > .bar::before{
+        content: ""; position: absolute; inset: 0;
+        border-radius: 999px;
+        background: linear-gradient(180deg, rgba(255,255,255,.32), rgba(255,255,255,0));
+      }
+      .progress > .bar::after{
+        content: ""; position: absolute; inset: 0;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,.45) 50%, transparent);
+        transform: translateX(-100%);
+        animation: sheen 2.2s ease-in-out infinite;
+      }
+      /* (e) Пульс прогресс-бара при переходе */
+      .progress.pulse > .bar{
+        animation: gradientShift 3s ease infinite, barPulse 400ms ease;
+      }
+      @keyframes gradientShift{
+        0%{ background-position: 0% 50%; }
+        50%{ background-position: 100% 50%; }
+        100%{ background-position: 0% 50%; }
+      }
+      @keyframes sheen{
+        0%{ transform: translateX(-100%); opacity: 0; }
+        30%{ opacity: 1; }
+        70%{ opacity: 1; }
+        100%{ transform: translateX(100%); opacity: 0; }
+      }
+      @keyframes barPulse{
+        0%{ box-shadow: 0 0 12px rgba(47,107,87,.30), 0 0 28px rgba(47,107,87,.15); }
+        50%{ box-shadow: 0 0 22px rgba(47,107,87,.55), 0 0 48px rgba(47,107,87,.30); }
+        100%{ box-shadow: 0 0 12px rgba(47,107,87,.30), 0 0 28px rgba(47,107,87,.15); }
+      }
+
+      /* ─── Экраны ─── */
+      .screen{
+        display: none;
+        opacity: 0;
+        transform: translateY(8px);
+      }
+      .screen.active{ display: block; }
+      .screen.enter{
+        opacity: 1; transform: translateY(0);
+        transition: opacity 380ms ease, transform 380ms ease;
+      }
+      /* (d) Slide-переход */
+      .screen.slide-left{
+        display: block; opacity: 0;
+        transform: translateX(40px);
+        animation: slideIn 380ms cubic-bezier(.22,.68,.36,1) both;
+      }
+      .screen.slide-right{
+        display: block; opacity: 0;
+        transform: translateX(-40px);
+        animation: slideIn 380ms cubic-bezier(.22,.68,.36,1) both;
+      }
+      @keyframes slideIn{
+        to{ opacity: 1; transform: translateX(0); }
+      }
+
+      .fade-up{ animation: fadeUp 520ms cubic-bezier(.2,.8,.2,1) both; }
+      @keyframes fadeUp{
+        from{ opacity: 0; transform: translateY(10px); filter: blur(2px); }
+        to{ opacity: 1; transform: translateY(0); filter: blur(0); }
+      }
+
+      /* ─── Иконка вопроса ─── */
+      .titleRow{
+        display: flex;
+        align-items: flex-start;
+        gap: 14px;
+        margin: 0 0 12px;
+      }
+      .qicon{
+        width: 44px; height: 44px;
+        border-radius: 14px;
+        background: var(--accent);
+        box-shadow: 0 8px 24px rgba(47,107,87,.22);
+        display: grid; place-items: center;
+        flex: 0 0 auto;
+      }
+      .qicon svg{ width: 22px; height: 22px; stroke: #fff; }
+
+      /* ─── Типографика ─── */
+      .kicker{
+        font-size: 13px; font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.8px;
+        color: var(--accent);
+        margin: 0 0 10px;
+      }
+      h1{
+        font-size: clamp(26px, 3.5vw, 36px);
+        line-height: 1.10; margin: 0 0 14px;
+        letter-spacing: -0.5px; font-weight: 750;
+      }
+      h2{
+        font-size: clamp(20px, 2.5vw, 24px);
+        line-height: 1.18; margin: 0 0 10px;
+        letter-spacing: -0.3px; font-weight: 700;
+      }
+      p{ margin: 0; color: var(--muted); line-height: 1.6; font-size: 15.5px; }
+      .hint{ margin-top: 12px; font-size: 13.5px; color: var(--muted2); }
+
+      /* ─── Опции ─── */
+      .grid{ margin-top: 20px; display: grid; gap: 12px; }
+      .option{
+        text-align: left; width: 100%;
+        display: grid;
+        grid-template-columns: 1fr auto;
+        align-items: center; gap: 12px;
+        padding: 16px;
+        border-radius: var(--radius-lg);
+        border: 1.5px solid rgba(26,29,32,.09);
+        background: rgba(255,255,255,.55);
+        box-shadow: 0 8px 28px rgba(20,24,28,.06);
+        cursor: pointer;
+        transition: transform 160ms ease, border-color 160ms ease, background 160ms ease, box-shadow 160ms ease;
+        opacity: 0; transform: translateY(10px);
+        animation: optionIn 540ms cubic-bezier(.2,.85,.2,1) both;
+        animation-delay: var(--d, 0ms);
+        position: relative; overflow: hidden;
+      }
+      @keyframes optionIn{ to{ opacity: 1; transform: translateY(0); } }
+      .option:hover{
+        transform: translateY(-2px);
+        border-color: rgba(47,107,87,.22);
+        background: rgba(255,255,255,.72);
+        box-shadow: 0 16px 44px rgba(20,24,28,.10), 0 4px 14px rgba(20,24,28,.06);
+      }
+      .option:active{ transform: translateY(0); }
+      .option:focus-visible{
+        outline: none;
+        box-shadow: 0 0 0 4px var(--focus), 0 8px 28px rgba(20,24,28,.06);
+      }
+      .option .label{ display: grid; gap: 4px; }
+      .option .title{
+        font-weight: 650; font-size: 15.5px;
+        color: rgba(26,29,32,.92); letter-spacing: -0.1px;
+      }
+      .option .desc{ font-size: 13.5px; color: var(--muted); line-height: 1.4; }
+
+      /* (f) Ripple */
+      .option .ripple{
+        position: absolute;
+        border-radius: 999px;
+        background: rgba(47,107,87,.15);
+        transform: scale(0);
+        animation: rippleAnim 500ms ease-out forwards;
+        pointer-events: none;
+      }
+      @keyframes rippleAnim{
+        to{ transform: scale(4); opacity: 0; }
+      }
+
+      /* (g) Pill с галочкой */
+      .pill{
+        display: inline-flex;
+        align-items: center; justify-content: center;
+        width: 32px; height: 32px;
+        border-radius: 10px;
+        border: 2px solid rgba(26,29,32,.18);
+        background: rgba(255,255,255,.70);
+        user-select: none;
+        transition: all 180ms ease;
+        flex: 0 0 auto;
+      }
+      .pill svg.checkmark{
+        width: 18px; height: 18px;
+        stroke: rgba(26,29,32,.22);
+        stroke-width: 2.5;
+        fill: none;
+        stroke-linecap: round; stroke-linejoin: round;
+        transition: stroke 180ms ease;
+      }
+      .pill svg.checkmark path{
+        stroke-dasharray: 24;
+        stroke-dashoffset: 24;
+        transition: stroke-dashoffset 300ms ease;
+      }
+      .option.selected .pill svg.checkmark{
+        stroke: #fff;
+      }
+      .option.selected .pill svg.checkmark path{
+        stroke-dashoffset: 0;
+      }
+
+      .option.selected{
+        border-color: var(--accent);
+        background: linear-gradient(180deg, rgba(47,107,87,.08), rgba(47,107,87,.04));
+        box-shadow: 0 12px 36px rgba(47,107,87,.12), 0 2px 10px rgba(20,24,28,.05);
+      }
+      .option.selected .pill{
+        border-color: var(--accent);
+        background: var(--accent);
+        box-shadow: 0 4px 12px rgba(47,107,87,.25);
+      }
+
+      /* ─── Кнопки ─── */
+      .footer{
+        margin-top: 24px;
+        display: flex; align-items: center;
+        justify-content: space-between;
+        gap: 12px; flex-wrap: wrap;
+      }
+      .btn{
+        appearance: none; font-size: 15px;
+        border: 1.5px solid rgba(26,29,32,.12);
+        background: rgba(255,255,255,.65);
+        color: rgba(26,29,32,.88);
+        border-radius: 999px;
+        padding: 13px 22px;
+        font-weight: 650; letter-spacing: -0.1px;
+        cursor: pointer;
+        box-shadow: 0 8px 22px rgba(20,24,28,.06);
+        transition: transform 140ms ease, box-shadow 140ms ease, background 140ms ease, border-color 140ms ease;
+      }
+      .btn:hover{
+        transform: translateY(-1px);
+        box-shadow: 0 14px 34px rgba(20,24,28,.10);
+      }
+      .btn:active{ transform: translateY(0); }
+      .btn:focus-visible{
+        outline: none;
+        box-shadow: 0 0 0 4px var(--focus), 0 8px 22px rgba(20,24,28,.06);
+      }
+      .btn.primary{
+        border-color: transparent;
+        background: var(--accent); color: #fff;
+        box-shadow: 0 10px 28px rgba(47,107,87,.26), 0 2px 8px rgba(47,107,87,.12);
+      }
+      .btn.primary:hover{
+        background: #276050;
+        box-shadow: 0 16px 38px rgba(47,107,87,.30), 0 4px 12px rgba(47,107,87,.15);
+      }
+      /* (i) Breathing-пульс для кнопки «Начать» */
+      .btn.primary.breathing{
+        animation: breathe 2.4s ease-in-out infinite;
+      }
+      @keyframes breathe{
+        0%,100%{ box-shadow: 0 10px 28px rgba(47,107,87,.26), 0 2px 8px rgba(47,107,87,.12); }
+        50%{ box-shadow: 0 10px 28px rgba(47,107,87,.26), 0 2px 8px rgba(47,107,87,.12), 0 0 0 8px rgba(47,107,87,.10); }
+      }
+      .btn.ghost{
+        background: transparent; box-shadow: none;
+        border-color: rgba(26,29,32,.10);
+      }
+      .btn[disabled]{
+        cursor: not-allowed; opacity: .45;
+        transform: none !important;
+      }
+
+      .meta{
+        display: inline-flex; align-items: center;
+        gap: 10px; color: var(--muted2);
+        font-size: 13.5px; user-select: none;
+      }
+      .meta .sep{
+        width: 4px; height: 4px; border-radius: 999px;
+        background: rgba(26,29,32,.22);
+      }
+
+      /* ─── Ёмкость энергии (сбоку) ─── */
+      .quiz-body{
+        display: flex;
+        gap: 20px;
+        align-items: stretch;
+      }
+      .quiz-main{ flex: 1; min-width: 0; }
+
+      .gauge{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+        flex: 0 0 auto;
+        padding: 4px 0;
+      }
+      .gauge-label{
+        font-size: 10px;
+        font-weight: 700;
+        color: var(--muted2);
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+        writing-mode: vertical-rl;
+        text-orientation: mixed;
+        transform: rotate(180deg);
+      }
+      .gauge-icon{
+        width: 20px; height: 20px;
+        opacity: .5;
+        transition: color 400ms ease, filter 400ms ease;
+        filter: drop-shadow(0 1px 3px rgba(47,107,87,.20));
+      }
+      .gauge-icon.low{ color: var(--bad); filter: drop-shadow(0 1px 3px rgba(139,72,72,.20)); }
+      .gauge-icon.mid{ color: var(--warn); filter: drop-shadow(0 1px 3px rgba(138,98,52,.20)); }
+      .gauge-icon.good{ color: var(--accent); filter: drop-shadow(0 1px 3px rgba(47,107,87,.20)); }
+      .gauge-track{
+        width: 30px;
+        height: 170px;
+        border-radius: 15px;
+        background: linear-gradient(180deg, rgba(240,237,232,.6), rgba(230,226,220,.4));
+        border: 1.5px solid rgba(26,29,32,.08);
+        position: relative;
+        overflow: hidden;
+        box-shadow:
+          inset 0 2px 8px rgba(20,24,28,.05),
+          0 2px 12px rgba(20,24,28,.06),
+          0 0 20px rgba(47,107,87,.06);
+        transition: box-shadow 400ms ease;
+      }
+      .gauge-track.glow-low{
+        box-shadow:
+          inset 0 2px 8px rgba(20,24,28,.05),
+          0 2px 12px rgba(139,72,72,.10),
+          0 0 24px rgba(139,72,72,.10);
+      }
+      .gauge-track.glow-mid{
+        box-shadow:
+          inset 0 2px 8px rgba(20,24,28,.05),
+          0 2px 12px rgba(138,98,52,.10),
+          0 0 24px rgba(138,98,52,.10);
+      }
+      .gauge-track.glow-good{
+        box-shadow:
+          inset 0 2px 8px rgba(20,24,28,.05),
+          0 2px 12px rgba(47,107,87,.12),
+          0 0 24px rgba(47,107,87,.10);
+      }
+      .gauge-marks{
+        position: absolute;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        padding: 8px 0;
+        z-index: 2;
+        pointer-events: none;
+      }
+      .gauge-marks span{
+        display: block;
+        width: 55%;
+        height: 1px;
+        margin: 0 auto;
+        background: rgba(26,29,32,.07);
+      }
+      .gauge-fill{
+        position: absolute;
+        bottom: 0; left: 0; right: 0;
+        border-radius: 0 0 13px 13px;
+        height: 55%;
+        background: linear-gradient(90deg, #3a8a6e, var(--accent), #4bb48e, #78c9aa);
+        background-size: 200% 100%;
+        animation: gradientShift 3s ease infinite;
+        transition: height 600ms cubic-bezier(.22,.68,.36,1), background-color 400ms ease;
+        box-shadow: 0 -4px 18px rgba(47,107,87,.30);
+      }
+      .gauge-fill::before{
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: inherit;
+        background: linear-gradient(180deg, rgba(255,255,255,.30), rgba(255,255,255,0) 60%);
+      }
+      .gauge-fill::after{
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(0deg, transparent, rgba(255,255,255,.40) 50%, transparent);
+        transform: translateY(100%);
+        animation: gaugeSheen 2.5s ease-in-out infinite;
+      }
+      @keyframes gaugeSheen{
+        0%{ transform: translateY(100%); opacity: 0; }
+        25%{ opacity: 1; }
+        75%{ opacity: 1; }
+        100%{ transform: translateY(-100%); opacity: 0; }
+      }
+      .gauge-fill.low{
+        background: linear-gradient(90deg, #b85555, var(--bad), #c06060, #d48080);
+        background-size: 200% 100%;
+        box-shadow: 0 -4px 18px rgba(139,72,72,.30);
+      }
+      .gauge-fill.mid{
+        background: linear-gradient(90deg, #b08030, var(--warn), #c9a050, #dab870);
+        background-size: 200% 100%;
+        box-shadow: 0 -4px 18px rgba(138,98,52,.30);
+      }
+      .gauge-fill.good{
+        background: linear-gradient(90deg, #3a8a6e, var(--accent), #4bb48e, #78c9aa);
+        background-size: 200% 100%;
+        box-shadow: 0 -4px 18px rgba(47,107,87,.30);
+      }
+      .gauge-fill.bump{
+        animation: gaugeBump 400ms ease, gradientShift 3s ease infinite;
+      }
+      @keyframes gaugeBump{
+        0%{ filter: brightness(1); }
+        35%{ filter: brightness(1.25); }
+        100%{ filter: brightness(1); }
+      }
+      .gauge-value{
+        font-size: 14px;
+        font-weight: 800;
+        color: var(--text);
+        line-height: 1;
+        transition: color 400ms ease;
+      }
+      .gauge-value.low{ color: var(--bad); }
+      .gauge-value.mid{ color: var(--warn); }
+      .gauge-value.good{ color: var(--accent); }
+
+      @media (max-width: 520px){
+        .quiz-body{
+          flex-direction: column;
+        }
+        .gauge{
+          flex-direction: row;
+          align-items: center;
+          gap: 10px;
+          order: -1;
+          padding: 0;
+        }
+        .gauge-icon{ display: none; }
+        .gauge-label{
+          writing-mode: horizontal-tb;
+          transform: none;
+          font-size: 9px;
+        }
+        .gauge-track{
+          flex: 1;
+          width: auto;
+          height: 14px;
+          border-radius: 7px;
+        }
+        .gauge-marks{
+          flex-direction: row;
+          padding: 0 8px;
+        }
+        .gauge-marks span{
+          width: 1px;
+          height: 60%;
+        }
+        .gauge-fill{
+          bottom: 0; top: 0;
+          left: 0;
+          right: auto;
+          width: 55%;
+          height: 100%;
+          border-radius: 7px;
+          transition: width 600ms cubic-bezier(.22,.68,.36,1), background 400ms ease;
+          box-shadow: 4px 0 14px rgba(47,107,87,.25);
+        }
+        .gauge-fill::after{
+          background: linear-gradient(90deg, transparent, rgba(255,255,255,.40) 50%, transparent);
+          transform: translateX(-100%);
+          animation: sheen 2.5s ease-in-out infinite;
+        }
+        .gauge-fill.low{ box-shadow: 4px 0 14px rgba(139,72,72,.25); }
+        .gauge-fill.mid{ box-shadow: 4px 0 14px rgba(138,98,52,.25); }
+        .gauge-fill.good{ box-shadow: 4px 0 14px rgba(47,107,87,.25); }
+        .gauge-value{ font-size: 13px; min-width: 28px; text-align: center; font-weight: 800; }
+      }
+
+      /* ─── Результат ─── */
+      .score{ margin-top: 20px; display: grid; gap: 12px; }
+      .scoreline{
+        display: flex; align-items: center;
+        justify-content: space-between; gap: 14px;
+        flex-wrap: wrap;
+      }
+
+      /* (a) Кольцевая шкала + число */
+      .ring-wrap{
+        position: relative;
+        width: 140px; height: 140px;
+        flex: 0 0 auto;
+      }
+      .ring-wrap svg{
+        width: 100%; height: 100%;
+        transform: rotate(-90deg);
+      }
+      .ring-track{
+        fill: none; stroke: rgba(26,29,32,.08);
+        stroke-width: 10;
+      }
+      .ring-fill{
+        fill: none;
+        stroke-width: 10;
+        stroke-linecap: round;
+        stroke: var(--accent);
+        stroke-dasharray: 408;
+        stroke-dashoffset: 408;
+        transition: stroke-dashoffset 1.2s cubic-bezier(.22,.68,.36,1), stroke 400ms ease;
+        filter: drop-shadow(0 0 8px rgba(47,107,87,.35));
+      }
+      .ring-fill.bad{ stroke: var(--bad); filter: drop-shadow(0 0 8px rgba(139,72,72,.30)); }
+      .ring-fill.mid{ stroke: var(--warn); filter: drop-shadow(0 0 8px rgba(138,98,52,.30)); }
+      .ring-fill.good{ stroke: var(--accent); filter: drop-shadow(0 0 8px rgba(47,107,87,.35)); }
+
+      .ring-center{
+        position: absolute; inset: 0;
+        display: flex; flex-direction: column;
+        align-items: center; justify-content: center;
+        text-align: center;
+      }
+      .ring-center .big{
+        font-size: 36px; letter-spacing: -1px;
+        font-weight: 800; color: var(--text);
+        line-height: 1;
+      }
+      .ring-center .big.pop{ animation: scorePop 700ms cubic-bezier(.2,.8,.2,1) both; }
+      @keyframes scorePop{
+        0%{ opacity: 0; transform: scale(.7); filter: blur(4px); }
+        60%{ opacity: 1; transform: scale(1.04); filter: blur(0); }
+        100%{ transform: scale(1); }
+      }
+      .ring-center .of{
+        font-size: 13px; font-weight: 600;
+        color: var(--muted2); margin-top: 2px;
+      }
+      /* (c) Emoji-реакция */
+      .ring-center .reaction{
+        font-size: 28px; line-height: 1;
+        margin-bottom: 2px;
+        animation: emojiBounce 600ms cubic-bezier(.2,.8,.2,1) both;
+        animation-delay: 400ms;
+        opacity: 0;
+      }
+      @keyframes emojiBounce{
+        0%{ opacity: 0; transform: scale(0) translateY(8px); }
+        60%{ opacity: 1; transform: scale(1.2) translateY(-2px); }
+        100%{ opacity: 1; transform: scale(1) translateY(0); }
+      }
+
+      .badge{
+        display: inline-flex; align-items: center;
+        gap: 8px; padding: 10px 16px;
+        border-radius: 999px; font-weight: 650; font-size: 14px;
+      }
+      .badge .mark{ width: 10px; height: 10px; border-radius: 999px; }
+      .badge.bad{ background: rgba(139,72,72,.10); color: var(--bad); border: 1.5px solid rgba(139,72,72,.18); }
+      .badge.bad .mark{ background: var(--bad); }
+      .badge.mid{ background: rgba(138,98,52,.10); color: var(--warn); border: 1.5px solid rgba(138,98,52,.18); }
+      .badge.mid .mark{ background: var(--warn); }
+      .badge.good{ background: rgba(47,107,87,.10); color: var(--good); border: 1.5px solid rgba(47,107,87,.18); }
+      .badge.good .mark{ background: var(--good); }
+
+      .divider{ height: 1px; background: rgba(26,29,32,.08); margin: 18px 0 16px; }
+
+      .note{
+        margin-top: 14px; padding: 16px;
+        border-radius: var(--radius-lg);
+        border: 1.5px solid rgba(47,107,87,.12);
+        background: linear-gradient(180deg, rgba(47,107,87,.05), rgba(47,107,87,.02));
+        box-shadow: 0 8px 22px rgba(20,24,28,.04);
+      }
+      .note strong{
+        display: inline-block; font-weight: 720;
+        font-size: 14.5px; color: var(--accent); margin-bottom: 4px;
+      }
+      .note p{ color: rgba(26,29,32,.64); font-size: 14.5px; }
+
+      /* (h) Floating кружки */
+      .floaters{
+        position: absolute; inset: 0;
+        pointer-events: none; overflow: hidden;
+        z-index: 0;
+      }
+      .floater{
+        position: absolute;
+        border-radius: 999px;
+        opacity: .12;
+        animation: floatAnim var(--dur, 18s) ease-in-out infinite alternate;
+      }
+      @keyframes floatAnim{
+        0%{ transform: translate(0, 0) scale(1); }
+        100%{ transform: translate(var(--dx, 30px), var(--dy, -20px)) scale(var(--sc, 1.1)); }
+      }
+
+      /* (b) Конфетти canvas */
+      #confettiCanvas{
+        position: fixed; inset: 0;
+        pointer-events: none; z-index: 9999;
+      }
+
+      .sr-only{
+        position: absolute; width: 1px; height: 1px;
+        padding: 0; margin: -1px; overflow: hidden;
+        clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+      }
+
+      @media (max-width: 520px){
+        .content{ padding: 24px 18px 22px; }
+        .topline{ padding: 0 4px; }
+        .option{ padding: 14px; }
+        .footer{ gap: 10px; }
+        .btn{ width: 100%; justify-content: center; }
+        .meta{ width: 100%; justify-content: center; }
+        .ring-wrap{ width: 120px; height: 120px; }
+        .ring-center .big{ font-size: 30px; }
+      }
+
+      @media (prefers-reduced-motion: reduce){
+        *{ transition: none !important; scroll-behavior: auto !important; }
+        .option, .floater, .ring-fill, .pill svg.checkmark path,
+        .btn.primary.breathing, .progress > .bar, .ring-center .reaction{
+          animation: none !important;
+        }
+        .option{ opacity: 1 !important; transform: none !important; }
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="confettiCanvas" aria-hidden="true"></canvas>
+
+    <div class="wrap">
+      <div class="shell">
+        <div class="topline" aria-hidden="true">
+          <div class="brand"><span class="dot"></span><span>Дневной ресурс</span></div>
+          <div class="chip"><span>мягкая оценка</span><span class="sep" aria-hidden="true"></span><strong id="chipStep">0/0</strong></div>
+        </div>
+
+        <main class="card" role="application" aria-label="Квиз про уровень энергии">
+          <!-- (h) Floating кружки -->
+          <div class="floaters" aria-hidden="true">
+            <div class="floater" style="width:80px;height:80px;top:8%;left:6%;background:rgba(47,107,87,.3);--dur:16s;--dx:25px;--dy:-18px;--sc:1.15;"></div>
+            <div class="floater" style="width:50px;height:50px;top:60%;right:8%;background:rgba(154,106,74,.25);--dur:20s;--dx:-30px;--dy:22px;--sc:0.9;"></div>
+            <div class="floater" style="width:100px;height:100px;bottom:10%;left:50%;background:rgba(47,107,87,.18);--dur:22s;--dx:20px;--dy:-30px;--sc:1.08;"></div>
+            <div class="floater" style="width:36px;height:36px;top:30%;right:20%;background:rgba(130,116,148,.22);--dur:14s;--dx:-18px;--dy:14px;--sc:1.2;"></div>
+          </div>
+
+          <div class="content">
+            <div class="progress" aria-hidden="true"><div class="bar" id="progressBar"></div></div>
+
+            <!-- START -->
+            <section class="screen active" id="screenStart">
+              <p class="kicker">Короткая проверка состояния</p>
+              <div class="titleRow">
+                <div class="qicon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="5"/>
+                    <path d="M12 1v2"/><path d="M12 21v2"/>
+                    <path d="M4.22 4.22l1.42 1.42"/><path d="M18.36 18.36l1.42 1.42"/>
+                    <path d="M1 12h2"/><path d="M21 12h2"/>
+                    <path d="M4.22 19.78l1.42-1.42"/><path d="M18.36 5.64l1.42-1.42"/>
+                  </svg>
+                </div>
+                <h1>Как прошёл ваш день на самом деле</h1>
+              </div>
+              <p>Ответьте на несколько вопросов и посмотрите, как это влияет на ваш ресурс.</p>
+              <div class="note" style="margin-top: 18px;">
+                <strong>Важно</strong>
+                <p>Результат — это наблюдение по привычкам дня, а не диагноз и не «оценка личности». Можно проходить в любое время.</p>
+              </div>
+              <div class="footer">
+                <button class="btn primary breathing" id="btnStart">Начать</button>
+                <div class="meta">
+                  <span>6 вопросов</span><span class="sep" aria-hidden="true"></span><span>≈ 1–2 минуты</span>
+                </div>
+              </div>
+            </section>
+
+            <!-- QUIZ -->
+            <section class="screen" id="screenQuiz" aria-live="polite">
+              <div class="quiz-body">
+                <div class="quiz-main">
+                  <p class="kicker" id="qKicker">Шаг</p>
+                  <div class="titleRow">
+                    <div class="qicon" id="qIcon" aria-hidden="true"></div>
+                    <h2 id="qTitle">Вопрос</h2>
+                  </div>
+                  <p id="qSubtitle">Выберите вариант.</p>
+                  <div class="grid" id="options"></div>
+                  <p class="hint" id="qHint"></p>
+                  <div class="footer">
+                    <button class="btn ghost" id="btnBack">Назад</button>
+                    <div class="meta" id="metaMid">
+                      <span id="metaEnergyLabel">Энергия сейчас</span><span class="sep" aria-hidden="true"></span><strong id="metaEnergy">—</strong>
+                    </div>
+                  </div>
+                </div>
+                <!-- Ёмкость энергии -->
+                <div class="gauge" id="gauge" aria-hidden="true">
+                  <svg class="gauge-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+                  </svg>
+                  <div class="gauge-value" id="gaugeValue">55</div>
+                  <div class="gauge-track">
+                    <div class="gauge-marks"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+                    <div class="gauge-fill good" id="gaugeFill"></div>
+                  </div>
+                  <div class="gauge-label">энергия</div>
+                </div>
+              </div>
+            </section>
+
+            <!-- RESULT -->
+            <section class="screen" id="screenResult">
+              <p class="kicker">Ваш итог за день</p>
+              <div class="titleRow" style="margin-bottom: 4px;">
+                <div class="qicon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+                  </svg>
+                </div>
+                <h1 style="margin-bottom: 0;">Уровень энергии</h1>
+              </div>
+
+              <div class="score">
+                <div class="scoreline">
+                  <!-- (a) Ring gauge -->
+                  <div class="ring-wrap">
+                    <svg viewBox="0 0 140 140">
+                      <circle class="ring-track" cx="70" cy="70" r="65"/>
+                      <circle class="ring-fill" id="ringFill" cx="70" cy="70" r="65"/>
+                    </svg>
+                    <div class="ring-center">
+                      <div class="reaction" id="resultReaction" aria-hidden="true"></div>
+                      <div class="big" id="resultBig"><span id="resultScore">0</span></div>
+                      <div class="of">из 100</div>
+                    </div>
+                  </div>
+                  <div class="badge" id="resultBadge"><span class="mark" aria-hidden="true"></span><span id="resultTier">—</span></div>
+                </div>
+                <p id="resultText">—</p>
+                <div class="divider"></div>
+                <div class="note">
+                  <strong>Небольшая подсказка</strong>
+                  <p id="resultAdvice">—</p>
+                </div>
+              </div>
+
+              <div class="footer">
+                <button class="btn" id="btnRestart">Пройти ещё раз</button>
+                <button class="btn primary" id="btnBreakdown" type="button">Получить разбор</button>
+              </div>
+              <p class="hint" style="margin-top: 12px;">Кнопка «Получить разбор» здесь — визуальный элемент (без отправки данных).</p>
+            </section>
+          </div>
+        </main>
+      </div>
+    </div>
+
+    <script>
+      const QUIZ = {
+        startEnergy: 55,
+        clampMin: 0,
+        clampMax: 100,
+        tiers: [
+          { key: "low", label: "низкий", min: 0, max: 44, badgeClass: "bad" },
+          { key: "mid", label: "средний", min: 45, max: 69, badgeClass: "mid" },
+          { key: "good", label: "стабильный", min: 70, max: 100, badgeClass: "good" }
+        ],
+        questions: [
+          {
+            id: "sleep",
+            title: "Во сколько вы легли спать?",
+            subtitle: "Выберите вариант, который ближе всего к реальности.",
+            maxSelect: 1,
+            hint: "Сон — один из самых сильных факторов ресурса на следующий день.",
+            options: [
+              { id: "sleep_early", title: "До 23:30", desc: "Дали себе шанс на восстановление.", delta: +10, tags: ["сон+"] },
+              { id: "sleep_mid", title: "23:30–01:00", desc: "Нейтрально: зависит от длительности сна.", delta: +2, tags: ["сон~"] },
+              { id: "sleep_late", title: "После 01:00", desc: "Организму может быть сложнее «досыпать» качественно.", delta: -10, tags: ["сон-"] }
+            ]
+          },
+          {
+            id: "meals",
+            title: "Были ли сегодня полноценные приёмы пищи?",
+            subtitle: "Речь про обычную еду, а не «кофе и печеньку».",
+            maxSelect: 1,
+            hint: "Регулярность питания помогает удерживать ровную работоспособность.",
+            options: [
+              { id: "meals_yes", title: "Да, 2–3 раза", desc: "Базовая поддержка энергии.", delta: +10, tags: ["питание+"] },
+              { id: "meals_one", title: "Скорее 1 раз", desc: "Ресурс может проседать к вечеру.", delta: -6, tags: ["питание-"] },
+              { id: "meals_no", title: "Почти нет / пропускал(а)", desc: "Тело часто «платит» усталостью.", delta: -12, tags: ["питание-"] }
+            ]
+          },
+          {
+            id: "water",
+            title: "Пили ли вы воду в течение дня?",
+            subtitle: "Не обязательно литрами — важно, чтобы вода вообще была.",
+            maxSelect: 1,
+            hint: "Небольшое обезвоживание может давать ощущение «тумана» и усталости.",
+            options: [
+              { id: "water_ok", title: "Да, регулярно", desc: "Поддержали ясность и тонус.", delta: +8, tags: ["вода+"] },
+              { id: "water_some", title: "Иногда", desc: "Нейтрально: можно добавить пару стаканов.", delta: 0, tags: ["вода~"] },
+              { id: "water_no", title: "Почти нет", desc: "Организм мог работать «в эконом-режиме».", delta: -8, tags: ["вода-"] }
+            ]
+          },
+          {
+            id: "stress",
+            title: "Был ли сегодня стресс или перегруз?",
+            subtitle: "Можно выбрать до двух вариантов, если совпало.",
+            maxSelect: 2,
+            hint: "Перегруз не «плохой» — он просто съедает ресурс быстрее обычного.",
+            options: [
+              { id: "stress_low", title: "Скорее спокойно", desc: "Нервная система не была на пределе.", delta: +6, tags: ["стресс+"] },
+              { id: "stress_mid", title: "Фон напряжения", desc: "Могла копиться усталость к вечеру.", delta: -8, tags: ["стресс-"] },
+              { id: "stress_high", title: "Сильная перегрузка", desc: "Тело могло перейти в режим «держаться».", delta: -14, tags: ["стресс--"] }
+            ]
+          },
+          {
+            id: "activity",
+            title: "Была ли физическая активность или прогулка?",
+            subtitle: "Даже 15–20 минут считаются.",
+            maxSelect: 1,
+            hint: "Движение помогает «переключить» голову и разгрузить стресс.",
+            options: [
+              { id: "act_walk", title: "Да, прогулка / легкая активность", desc: "Поддержали циркуляцию и настроение.", delta: +8, tags: ["активность+"] },
+              { id: "act_none", title: "Почти нет", desc: "Ничего страшного, просто это фактор ресурса.", delta: -6, tags: ["активность-"] }
+            ]
+          },
+          {
+            id: "sweets",
+            title: "Были ли перекусы сладким / быстрыми углеводами?",
+            subtitle: "Это не про запреты — про то, как чувствуется энергия после.",
+            maxSelect: 1,
+            hint: "Иногда сладкое помогает «дотянуть», но потом может быть спад.",
+            options: [
+              { id: "sweet_no", title: "Почти не было", desc: "Энергия обычно ровнее.", delta: +6, tags: ["сахар+"] },
+              { id: "sweet_some", title: "Пару раз", desc: "Нейтрально: зависит от остального дня.", delta: -2, tags: ["сахар~"] },
+              { id: "sweet_yes", title: "Да, часто", desc: "Возможны «качели» по самочувствию.", delta: -8, tags: ["сахар-"] }
+            ]
+          }
+        ],
+        insights: {
+          "сон-": "сон мог быть поздним",
+          "сон~": "сон был на границе комфорта",
+          "сон+": "сон поддержал восстановление",
+          "питание-": "питание было нерегулярным",
+          "питание+": "питание помогло держать ровный темп",
+          "вода-": "воды могло не хватить",
+          "вода~": "с водой было «как получится»",
+          "вода+": "вода поддержала ясность",
+          "стресс--": "перегрузка была сильной",
+          "стресс-": "напряжение забирало ресурс",
+          "стресс+": "день был относительно спокойным",
+          "активность-": "движения было мало",
+          "активность+": "движение помогло разгрузиться",
+          "сахар-": "быстрые перекусы могли дать спад",
+          "сахар~": "сладкое было эпизодически",
+          "сахар+": "перекусы были более ровными"
+        }
+      };
+
+      const state = {
+        step: -1,
+        energy: QUIZ.startEnergy,
+        answers: [],
+        autoAdvanceTimer: null,
+        direction: 1 // 1 = forward, -1 = back (for slide direction)
+      };
+
+      const el = {
+        chipStep: document.getElementById("chipStep"),
+        progressBar: document.getElementById("progressBar"),
+        screenStart: document.getElementById("screenStart"),
+        screenQuiz: document.getElementById("screenQuiz"),
+        screenResult: document.getElementById("screenResult"),
+        btnStart: document.getElementById("btnStart"),
+        btnBack: document.getElementById("btnBack"),
+        btnRestart: document.getElementById("btnRestart"),
+        btnBreakdown: document.getElementById("btnBreakdown"),
+        qKicker: document.getElementById("qKicker"),
+        qTitle: document.getElementById("qTitle"),
+        qSubtitle: document.getElementById("qSubtitle"),
+        qHint: document.getElementById("qHint"),
+        qIcon: document.getElementById("qIcon"),
+        options: document.getElementById("options"),
+        metaEnergy: document.getElementById("metaEnergy"),
+        resultScore: document.getElementById("resultScore"),
+        resultBig: document.getElementById("resultBig"),
+        resultTier: document.getElementById("resultTier"),
+        resultBadge: document.getElementById("resultBadge"),
+        resultText: document.getElementById("resultText"),
+        resultAdvice: document.getElementById("resultAdvice"),
+        ringFill: document.getElementById("ringFill"),
+        resultReaction: document.getElementById("resultReaction"),
+        confettiCanvas: document.getElementById("confettiCanvas")
+      };
+
+      function clamp(n, a, b){ return Math.max(a, Math.min(b, n)); }
+      function sum(arr){ return arr.reduce((acc, x) => acc + x, 0); }
+
+      function setChip(){
+        const total = QUIZ.questions.length;
+        const current = Math.max(0, Math.min(state.step + 1, total));
+        el.chipStep.textContent = `${current}/${total}`;
+      }
+
+      function setProgress(){
+        const total = QUIZ.questions.length;
+        const done = clamp(state.step, 0, total);
+        const pct = total === 0 ? 0 : Math.round((done / total) * 100);
+        el.progressBar.style.width = `${pct}%`;
+      }
+
+      // (e) Пульс прогресс-бара
+      function pulseProgress(){
+        const bar = el.progressBar.closest(".progress");
+        bar.classList.remove("pulse");
+        void bar.offsetWidth;
+        bar.classList.add("pulse");
+        setTimeout(() => bar.classList.remove("pulse"), 450);
+      }
+
+      function animateIn(section){ requestAnimationFrame(() => section.classList.add("enter")); }
+
+      // (d) Slide-показ экрана
+      function showScreen(name, direction){
+        const all = [el.screenStart, el.screenQuiz, el.screenResult];
+        all.forEach(s => {
+          s.classList.remove("enter", "active", "slide-left", "slide-right");
+        });
+        const target = name === "start" ? el.screenStart : name === "quiz" ? el.screenQuiz : el.screenResult;
+        if (direction === 1){
+          target.classList.add("slide-left");
+        } else if (direction === -1){
+          target.classList.add("slide-right");
+        } else {
+          target.classList.add("active");
+          animateIn(target);
+        }
+      }
+
+      function currentQuestion(){ return QUIZ.questions[state.step]; }
+
+      function computeEnergyFromAnswers(){
+        return clamp(QUIZ.startEnergy + sum(state.answers.map(a => a.delta)), QUIZ.clampMin, QUIZ.clampMax);
+      }
+
+      function deriveTier(score){
+        return QUIZ.tiers.find(t => score >= t.min && score <= t.max) || QUIZ.tiers[0];
+      }
+
+      function buildInsights(){
+        const contributions = [];
+        for (const a of state.answers){
+          for (const tag of (a.tags || [])) contributions.push({ tag, delta: a.delta });
+        }
+        const neg = contributions.filter(x => x.delta < 0).sort((a,b) => a.delta - b.delta);
+        const pos = contributions.filter(x => x.delta > 0).sort((a,b) => b.delta - a.delta);
+        return {
+          topNeg: [...new Set(neg.map(x => x.tag))].slice(0, 2),
+          topPos: [...new Set(pos.map(x => x.tag))].slice(0, 2)
+        };
+      }
+
+      function sentenceFromTags(tags){
+        const parts = tags.map(t => QUIZ.insights[t]).filter(Boolean);
+        if (parts.length <= 1) return parts[0] || "";
+        return `${parts.slice(0, -1).join(", ")} и ${parts[parts.length - 1]}`;
+      }
+
+      // ─── Render question ───
+      function renderQuestion(){
+        const q = currentQuestion();
+        const total = QUIZ.questions.length;
+        el.qKicker.textContent = `Шаг ${state.step + 1} из ${total}`;
+        el.qTitle.textContent = q.title;
+        el.qSubtitle.textContent = q.subtitle || "Выберите вариант.";
+        el.qHint.textContent = q.hint || "";
+        renderQuestionIcon(q.id);
+
+        const prev = state.answers[state.step]?.optionIds || [];
+        const maxSelect = q.maxSelect ?? 1;
+
+        el.options.innerHTML = "";
+        q.options.forEach((opt, idx) => {
+          const btn = document.createElement("button");
+          btn.type = "button";
+          btn.className = "option";
+          btn.dataset.optionId = opt.id;
+          btn.setAttribute("aria-pressed", "false");
+
+          if (prev.includes(opt.id)){
+            btn.classList.add("selected");
+            btn.setAttribute("aria-pressed", "true");
+          }
+
+          const left = document.createElement("div");
+          left.className = "label";
+          const t = document.createElement("div");
+          t.className = "title"; t.textContent = opt.title;
+          const d = document.createElement("div");
+          d.className = "desc"; d.textContent = opt.desc || "";
+          left.appendChild(t);
+          if (opt.desc) left.appendChild(d);
+
+          // (g) Pill с SVG-галочкой
+          const pill = document.createElement("div");
+          pill.className = "pill";
+          pill.innerHTML = `<svg class="checkmark" viewBox="0 0 16 16"><path d="M3 8.5l3.5 3.5 6.5-8"/></svg>`;
+          pill.setAttribute("aria-hidden", "true");
+
+          btn.appendChild(left);
+          btn.appendChild(pill);
+          btn.style.setProperty("--d", `${idx * 55}ms`);
+
+          // (f) Ripple + toggle
+          btn.addEventListener("click", (e) => {
+            spawnRipple(btn, e);
+            toggleOption(opt.id, maxSelect);
+          });
+          btn.dataset.hotkey = String(idx + 1);
+          el.options.appendChild(btn);
+        });
+
+        el.btnBack.disabled = state.step <= 0;
+        syncMetaEnergy();
+        setChip();
+        setProgress();
+        pulseProgress();
+      }
+
+      // (f) Ripple spawn
+      function spawnRipple(btn, e){
+        const rect = btn.getBoundingClientRect();
+        const size = Math.max(rect.width, rect.height);
+        const ripple = document.createElement("span");
+        ripple.className = "ripple";
+        ripple.style.width = ripple.style.height = size + "px";
+        ripple.style.left = (e.clientX - rect.left - size / 2) + "px";
+        ripple.style.top = (e.clientY - rect.top - size / 2) + "px";
+        btn.appendChild(ripple);
+        ripple.addEventListener("animationend", () => ripple.remove());
+      }
+
+      function iconSvg(name){
+        const c = `fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"`;
+        const m = {
+          sleep: `<svg viewBox="0 0 24 24" ${c}><path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79z"/></svg>`,
+          meals: `<svg viewBox="0 0 24 24" ${c}><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>`,
+          water: `<svg viewBox="0 0 24 24" ${c}><path d="M12 2s5 6 5 10a5 5 0 1 1-10 0c0-4 5-10 5-10z"/></svg>`,
+          stress: `<svg viewBox="0 0 24 24" ${c}><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>`,
+          activity: `<svg viewBox="0 0 24 24" ${c}><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>`,
+          sweets: `<svg viewBox="0 0 24 24" ${c}><path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96.44A2.5 2.5 0 0 1 5 17.5V8.36a1 1 0 0 1 .56-.9l3.94-2V2z"/><path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96.44A2.5 2.5 0 0 0 19 17.5V8.36a1 1 0 0 0-.56-.9l-3.94-2V2z"/></svg>`,
+        };
+        return m[name] || `<svg viewBox="0 0 24 24" ${c}><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/></svg>`;
+      }
+
+      function renderQuestionIcon(id){
+        if (!el.qIcon) return;
+        el.qIcon.innerHTML = iconSvg(id);
+        el.qIcon.classList.remove("fade-up");
+        void el.qIcon.offsetWidth;
+        el.qIcon.classList.add("fade-up");
+      }
+
+      function selectedOptionIds(){
+        return Array.isArray(state.answers[state.step]?.optionIds) ? state.answers[state.step].optionIds : [];
+      }
+
+      function toggleOption(optionId, maxSelect){
+        const current = new Set(selectedOptionIds());
+        if (current.has(optionId)){
+          current.delete(optionId);
+        } else {
+          if (current.size >= maxSelect) current.delete(Array.from(current)[0]);
+          current.add(optionId);
+        }
+        setSelection(Array.from(current));
+      }
+
+      function setSelection(optionIds){
+        const q = currentQuestion();
+        const picked = new Set(optionIds);
+        const chosen = q.options.filter(o => picked.has(o.id));
+        state.answers[state.step] = {
+          optionIds: optionIds.slice(),
+          delta: sum(chosen.map(o => o.delta || 0)),
+          tags: chosen.flatMap(o => o.tags || [])
+        };
+
+        for (const node of el.options.querySelectorAll(".option")){
+          const isSel = picked.has(node.dataset.optionId);
+          node.classList.toggle("selected", isSel);
+          node.setAttribute("aria-pressed", isSel ? "true" : "false");
+        }
+        syncMetaEnergy();
+
+        const maxSelect = q.maxSelect ?? 1;
+        const count = optionIds.length;
+        const stepSnap = state.step;
+
+        if (state.autoAdvanceTimer){
+          clearTimeout(state.autoAdvanceTimer);
+          state.autoAdvanceTimer = null;
+        }
+
+        let delay = null;
+        if (maxSelect <= 1 && count === 1) delay = 280;
+        if (maxSelect > 1 && count >= maxSelect) delay = 280;
+        if (maxSelect > 1 && count === 1) delay = 900;
+
+        if (delay !== null){
+          state.autoAdvanceTimer = setTimeout(() => {
+            state.autoAdvanceTimer = null;
+            if (state.step !== stepSnap || selectedOptionIds().length === 0) return;
+            goNext();
+          }, delay);
+        }
+      }
+
+      function syncMetaEnergy(){
+        const energy = computeEnergyFromAnswers();
+        el.metaEnergy.textContent = `${energy}/100`;
+        updateGauge(energy);
+      }
+
+      function updateGauge(energy){
+        const fill = document.getElementById("gaugeFill");
+        const val = document.getElementById("gaugeValue");
+        const track = document.getElementById("gauge")?.querySelector(".gauge-track");
+        const icon = document.getElementById("gauge")?.querySelector(".gauge-icon");
+        if (!fill || !val) return;
+        val.textContent = String(energy);
+
+        const isWide = window.matchMedia("(max-width: 520px)").matches;
+        if (isWide){
+          fill.style.width = `${energy}%`;
+        } else {
+          fill.style.height = `${energy}%`;
+        }
+
+        const tier = energy <= 44 ? "low" : energy <= 69 ? "mid" : "good";
+
+        fill.classList.remove("low", "mid", "good", "bump");
+        val.classList.remove("low", "mid", "good");
+        if (icon) icon.classList.remove("low", "mid", "good");
+        if (track){
+          track.classList.remove("glow-low", "glow-mid", "glow-good");
+          track.classList.add("glow-" + tier);
+        }
+
+        fill.classList.add(tier);
+        val.classList.add(tier);
+        if (icon) icon.classList.add(tier);
+
+        void fill.offsetWidth;
+        fill.classList.add("bump");
+        setTimeout(() => fill.classList.remove("bump"), 420);
+      }
+
+      function goToStart(){
+        state.step = -1;
+        state.energy = QUIZ.startEnergy;
+        state.answers = [];
+        if (state.autoAdvanceTimer){ clearTimeout(state.autoAdvanceTimer); state.autoAdvanceTimer = null; }
+        el.progressBar.style.width = "0%";
+        el.chipStep.textContent = `0/${QUIZ.questions.length}`;
+        el.ringFill.style.strokeDashoffset = "408";
+        updateGauge(QUIZ.startEnergy);
+        showScreen("start", 0);
+      }
+
+      function goToFirstQuestion(){
+        state.step = 0;
+        state.direction = 1;
+        showScreen("quiz", 1);
+        renderQuestion();
+      }
+
+      function goBack(){
+        if (state.step <= 0) return;
+        if (state.autoAdvanceTimer){ clearTimeout(state.autoAdvanceTimer); state.autoAdvanceTimer = null; }
+        state.direction = -1;
+        state.step -= 1;
+        showScreen("quiz", -1);
+        renderQuestion();
+      }
+
+      function goNext(){
+        const total = QUIZ.questions.length;
+        if (state.step < 0) return;
+        if (state.autoAdvanceTimer){ clearTimeout(state.autoAdvanceTimer); state.autoAdvanceTimer = null; }
+        if (!state.answers[state.step] || selectedOptionIds().length === 0) return;
+
+        if (state.step >= total - 1){
+          finish();
+          return;
+        }
+        state.direction = 1;
+        state.step += 1;
+        showScreen("quiz", 1);
+        renderQuestion();
+      }
+
+      // ─── Count-up + ring + confetti ───
+      function animateCountUp(element, target, duration){
+        const start = performance.now();
+        element.textContent = "0";
+        const parent = element.closest(".big");
+        if (parent){ parent.classList.remove("pop"); void parent.offsetWidth; parent.classList.add("pop"); }
+        function tick(now){
+          const p = Math.min((now - start) / duration, 1);
+          const eased = 1 - Math.pow(1 - p, 3);
+          element.textContent = String(Math.round(eased * target));
+          if (p < 1) requestAnimationFrame(tick);
+        }
+        requestAnimationFrame(tick);
+      }
+
+      // (a) Animate ring
+      function animateRing(pct, tierKey){
+        const circumference = 2 * Math.PI * 65; // ~408
+        const offset = circumference * (1 - pct / 100);
+        el.ringFill.classList.remove("bad", "mid", "good");
+        el.ringFill.classList.add(tierKey === "low" ? "bad" : tierKey === "mid" ? "mid" : "good");
+        el.ringFill.style.strokeDashoffset = String(circumference);
+        requestAnimationFrame(() => {
+          el.ringFill.style.strokeDashoffset = String(offset);
+        });
+      }
+
+      // (c) Emoji reaction
+      function showReaction(tierKey){
+        const map = { low: "🪫", mid: "🌥️", good: "☀️" };
+        el.resultReaction.textContent = map[tierKey] || "";
+        el.resultReaction.style.animation = "none";
+        void el.resultReaction.offsetWidth;
+        el.resultReaction.style.animation = "";
+      }
+
+      // (b) Confetti (canvas, без библиотек)
+      function launchConfetti(){
+        const canvas = el.confettiCanvas;
+        const ctx = canvas.getContext("2d");
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const colors = ["#2f6b57","#4bb48e","#78c9aa","#9a6a4a","#c9a87c","#7a9e8e"];
+        const particles = Array.from({ length: 80 }, () => ({
+          x: canvas.width / 2 + (Math.random() - 0.5) * 200,
+          y: canvas.height / 2,
+          vx: (Math.random() - 0.5) * 12,
+          vy: -Math.random() * 14 - 4,
+          size: Math.random() * 6 + 3,
+          color: colors[Math.floor(Math.random() * colors.length)],
+          rotation: Math.random() * 360,
+          rotSpeed: (Math.random() - 0.5) * 8,
+          opacity: 1,
+          decay: 0.012 + Math.random() * 0.008
+        }));
+
+        let running = true;
+        function frame(){
+          if (!running) return;
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          let alive = 0;
+          for (const p of particles){
+            if (p.opacity <= 0) continue;
+            alive++;
+            p.x += p.vx;
+            p.y += p.vy;
+            p.vy += 0.25;
+            p.vx *= 0.99;
+            p.rotation += p.rotSpeed;
+            p.opacity -= p.decay;
+
+            ctx.save();
+            ctx.translate(p.x, p.y);
+            ctx.rotate(p.rotation * Math.PI / 180);
+            ctx.globalAlpha = Math.max(0, p.opacity);
+            ctx.fillStyle = p.color;
+            ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size * 0.6);
+            ctx.restore();
+          }
+          if (alive > 0) requestAnimationFrame(frame);
+          else { ctx.clearRect(0, 0, canvas.width, canvas.height); running = false; }
+        }
+        requestAnimationFrame(frame);
+      }
+
+      function finish(){
+        state.energy = computeEnergyFromAnswers();
+        const tier = deriveTier(state.energy);
+        const { topNeg, topPos } = buildInsights();
+
+        animateCountUp(el.resultScore, state.energy, 900);
+        animateRing(state.energy, tier.key);
+        showReaction(tier.key);
+
+        el.resultTier.textContent = tier.label;
+        el.resultBadge.classList.remove("bad", "mid", "good");
+        el.resultBadge.classList.add(tier.badgeClass);
+
+        let observation = "";
+        if (topNeg.length >= 1){
+          observation = `Похоже, сегодня энергия просела, потому что ${sentenceFromTags(topNeg)}.`;
+        } else if (topPos.length >= 1){
+          observation = `Удалось сохранить ресурс: ${sentenceFromTags(topPos)}.`;
+        } else {
+          observation = "Похоже, день получился смешанным: часть привычек поддержала ресурс, часть — забрала его.";
+        }
+
+        let advice = "";
+        if (tier.key === "low") advice = "Если захотите сделать один маленький шаг: выберите самое простое — стакан воды утром, небольшой приём пищи вовремя или 15 минут прогулки.";
+        else if (tier.key === "mid") advice = "Чтобы завтра было ровнее, попробуйте поддержать 1–2 базовых вещи: регулярную еду + воду или короткую прогулку в середине дня.";
+        else advice = "Похоже, базовые опоры сработали. Чтобы закрепить, оставьте «скелет» дня: сон, вода, еда и немного движения.";
+
+        el.resultText.textContent = observation;
+        el.resultAdvice.textContent = advice;
+
+        setChip();
+        el.progressBar.style.width = "100%";
+        pulseProgress();
+        showScreen("result", 1);
+
+        if (tier.key === "good") setTimeout(launchConfetti, 500);
+      }
+
+      // ─── События ───
+      el.btnStart.addEventListener("click", () => goToFirstQuestion());
+      el.btnBack.addEventListener("click", () => goBack());
+      el.btnRestart.addEventListener("click", () => goToStart());
+      el.btnBreakdown.addEventListener("click", () => {
+        window.alert("Разбор — визуальная кнопка в демо. Здесь можно подключить форму, чат или страницу с рекомендациями.");
+      });
+
+      document.addEventListener("keydown", (e) => {
+        if (!el.screenQuiz.classList.contains("slide-left") && !el.screenQuiz.classList.contains("slide-right") && !el.screenQuiz.classList.contains("active")) return;
+        if (e.key === "Backspace"){ goBack(); return; }
+        if (/^[1-9]$/.test(e.key)){
+          const btn = Array.from(el.options.querySelectorAll(".option")).find(n => n.dataset.hotkey === e.key);
+          if (btn) btn.click();
+        }
+      });
+
+      // ─── Инициализация ───
+      (function init(){
+        el.chipStep.textContent = `0/${QUIZ.questions.length}`;
+        setProgress();
+        animateIn(el.screenStart);
+      })();
+    </script>
+  </body>
+</html>
