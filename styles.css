@@ -1484,20 +1484,21 @@ input:focus{
   border-radius: var(--radius-md);
 }
 .recognize-inner{
-  max-width: 42rem;
+  max-width: min(72rem, 100%);
   margin: 0 auto;
 }
 .recognize-split{
   display: flex;
   gap: 60px;
   align-items: center;
+  flex-wrap: nowrap;
 }
 .recognize-content{
   flex: 1;
   min-width: 0;
 }
 .recognize-media{
-  flex: 1;
+  flex: 0 0 min(420px, 100%);
   max-width: 420px;
   width: 100%;
   margin-left: auto;
