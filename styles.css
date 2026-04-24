@@ -1283,6 +1283,29 @@ input:focus{
   }
 }
 
+/* «Обо мне»: силуэт в фоне секции (не в карточке) */
+.about-section{
+  position: relative;
+}
+.about-section > .container{
+  position: relative;
+  z-index: 1;
+}
+.about-section::after{
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 600px;
+  height: 100%;
+  background: url("woman-lines.png") no-repeat right center;
+  background-size: contain;
+  opacity: 0.42;
+  filter: contrast(1.1);
+  pointer-events: none;
+  z-index: 0;
+}
+
 /* «Обо мне»: плашка справа с верхом на уровне заголовка h2 */
 .about-layout{
   display: grid;
@@ -1304,20 +1327,6 @@ input:focus{
 .about-layout__card{
   grid-area: card;
   align-self: start;
-  position: relative;
-}
-.about-image{
-  position: absolute;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
-
-  width: 480px;
-  max-width: 100%;
-
-  opacity: 0.7;
-  pointer-events: none;
-  filter: contrast(1.1) brightness(0.95) sepia(0.28) saturate(0.38) hue-rotate(328deg);
 }
 .about-blocks{
   display: flex;
