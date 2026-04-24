@@ -1286,35 +1286,13 @@ input:focus{
 /* «Обо мне»: плашка справа с верхом на уровне заголовка h2 */
 .about-layout{
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(200px, min(48%, 520px)) minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   grid-template-areas:
-    "head visual card"
-    "intro visual card";
+    "head card"
+    "intro card";
   column-gap: clamp(22px, 3.5vw, 40px);
   row-gap: clamp(10px, 1.5vw, 16px);
   align-items: start;
-}
-.about-layout__visual{
-  grid-area: visual;
-  align-self: center;
-  justify-self: center;
-  min-width: 0;
-  width: 100%;
-  max-width: min(100%, 520px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.about-visual {
-  width: 100%;
-  max-width: 520px;
-  height: auto;
-
-  opacity: 0.45;
-
-  object-fit: contain;
-
-  pointer-events: none;
 }
 .about-layout .about-layout__head{
   grid-area: head;
@@ -1326,6 +1304,20 @@ input:focus{
 .about-layout__card{
   grid-area: card;
   align-self: start;
+  position: relative;
+}
+.about-image{
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+
+  width: 480px;
+  max-width: 100%;
+
+  opacity: 0.7;
+  pointer-events: none;
+  filter: contrast(1.1) brightness(0.95) sepia(0.28) saturate(0.38) hue-rotate(328deg);
 }
 .about-blocks{
   display: flex;
@@ -1389,7 +1381,6 @@ input:focus{
     grid-template-areas:
       "head"
       "intro"
-      "visual"
       "card";
   }
   .about-layout__card{
