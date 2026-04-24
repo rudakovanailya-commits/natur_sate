@@ -1467,7 +1467,13 @@
       (function init(){
         el.chipStep.textContent = `0/${QUIZ.questions.length}`;
         setProgress();
-        animateIn(el.screenStart);
+        const params = new URLSearchParams(window.location.search);
+        const step = params.get("step");
+        if (step === "2") {
+          goToFirstQuestion();
+        } else {
+          animateIn(el.screenStart);
+        }
       })();
     </script>
   </body>
