@@ -1496,7 +1496,14 @@
       (function init(){
         el.chipStep.textContent = `0/${QUIZ.questions.length}`;
         setProgress();
-        animateIn(el.screenStart);
+        const params = new URLSearchParams(window.location.search);
+        const step = params.get("step");
+        // step=1 — сразу первый вопрос (в UI: «Шаг 1 из 6»)
+        if (step === "1") {
+          goToFirstQuestion();
+        } else {
+          animateIn(el.screenStart);
+        }
       })();
     </script>
   </body>
