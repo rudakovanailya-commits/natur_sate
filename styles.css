@@ -1287,6 +1287,13 @@ input:focus{
 .about-section{
   position: relative;
 }
+.about-section.section-soft{
+  background: linear-gradient(
+    180deg,
+    rgba(247, 242, 234, 0.96),
+    rgba(255, 250, 244, 0.78)
+  );
+}
 .about-section > .container{
   position: relative;
   z-index: 1;
@@ -1298,10 +1305,10 @@ input:focus{
   background: url("woman-lines.png") no-repeat;
   background-position: right 80px bottom clamp(0px, 1.5vw, 14px);
   background-size: 700px auto;
-  /* multiply: светлая подложка PNG сливается с градиентом секции; темнеют только линии */
+  /* multiply: подложка PNG с градиентом секции; contrast + saturate — читаемее линии */
   mix-blend-mode: multiply;
-  opacity: 0.68;
-  filter: contrast(1.32);
+  opacity: 0.82;
+  filter: contrast(1.48) saturate(1.35);
   pointer-events: none;
   z-index: 0;
 }
