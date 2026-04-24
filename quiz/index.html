@@ -188,6 +188,36 @@
         transform: translateX(-40px);
         animation: slideIn 380ms cubic-bezier(.22,.68,.36,1) both;
       }
+      .back-site{
+        position: absolute;
+        top: 14px;
+        left: 14px;
+        z-index: 50;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 14px;
+        border-radius: 999px;
+        background: rgba(255,255,255,.86);
+        border: 1px solid rgba(20,20,20,.08);
+        text-decoration: none;
+        color: var(--ink);
+        font-weight: 650;
+        font-size: 14px;
+        box-shadow: 0 10px 24px rgba(0,0,0,.08);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        transition: transform .18s ease, box-shadow .18s ease, background .18s ease;
+      }
+      .back-site:hover{
+        transform: translateY(-1px);
+        box-shadow: 0 14px 30px rgba(0,0,0,.12);
+        background: rgba(255,255,255,.94);
+      }
+      .back-site:focus-visible{
+        outline: 2px solid rgba(47,107,87,.55);
+        outline-offset: 3px;
+      }
       @keyframes slideIn{
         to{ opacity: 1; transform: translateX(0); }
       }
@@ -750,6 +780,7 @@
 
     <div class="wrap">
       <div class="shell">
+        <a class="back-site" href="../index.html">← Вернуться на сайт</a>
         <div class="topline" aria-hidden="true">
           <div class="brand"><span class="dot"></span><span>Дневной ресурс</span></div>
           <div class="chip"><span>мягкая оценка</span><span class="sep" aria-hidden="true"></span><strong id="chipStep">0/0</strong></div>
@@ -867,7 +898,7 @@
 
               <div class="footer">
                 <button class="btn" id="btnRestart">Пройти ещё раз</button>
-                <button class="btn primary" id="btnBreakdown" type="button">Получить разбор</button>
+                <a href="../#form" class="cta-btn btn primary" id="btnBreakdown">Получить разбор</a>
               </div>
               <p class="hint" style="margin-top: 12px;">Кнопка «Получить разбор» здесь — визуальный элемент (без отправки данных).</p>
             </section>
@@ -1450,9 +1481,7 @@
       el.btnStart.addEventListener("click", () => goToFirstQuestion());
       el.btnBack.addEventListener("click", () => goBack());
       el.btnRestart.addEventListener("click", () => goToStart());
-      el.btnBreakdown.addEventListener("click", () => {
-        window.alert("Разбор — визуальная кнопка в демо. Здесь можно подключить форму, чат или страницу с рекомендациями.");
-      });
+      // btnBreakdown теперь ссылка на форму на основном сайте (../#form)
 
       document.addEventListener("keydown", (e) => {
         if (!el.screenQuiz.classList.contains("slide-left") && !el.screenQuiz.classList.contains("slide-right") && !el.screenQuiz.classList.contains("active")) return;
