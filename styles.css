@@ -1487,6 +1487,28 @@ input:focus{
   max-width: 42rem;
   margin: 0 auto;
 }
+.recognize-split{
+  display: flex;
+  gap: 60px;
+  align-items: center;
+}
+.recognize-content{
+  flex: 1;
+  min-width: 0;
+}
+.recognize-media{
+  flex: 1;
+  max-width: 420px;
+  width: 100%;
+  margin-left: auto;
+  text-decoration: none;
+}
+.recognize-media img{
+  width: 100%;
+  display: block;
+  border-radius: 24px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+}
 .recognize-head.section-head{
   margin-bottom: 26px;
 }
@@ -1578,6 +1600,16 @@ input:focus{
   }
   .recognize-inner{
     max-width: none;
+  }
+  .recognize-split{
+    flex-direction: column;
+    align-items: stretch;
+    gap: 22px;
+  }
+  .recognize-media{
+    max-width: 520px;
+    margin-left: 0;
+    margin-right: auto;
   }
   .recognize-head.section-head h2{
     max-width: none;
