@@ -48,6 +48,37 @@
 }
 
 *{ box-sizing: border-box; }
+
+/* Минималистичные SVG-иконки (outline) */
+.icon{
+  width: 22px;
+  height: 22px;
+  stroke: currentColor;
+  stroke-width: 1.5;
+  fill: none;
+  flex-shrink: 0;
+}
+.icon-wrap{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: rgba(154, 115, 74, 0.72);
+}
+.icon-circle{
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  background: rgba(176, 137, 122, 0.1);
+  color: rgba(90, 62, 54, 0.78);
+}
+.icon-circle .icon{
+  width: 20px;
+  height: 20px;
+}
 html{
   scroll-behavior: smooth;
   background: var(--bg-deep);
@@ -866,6 +897,24 @@ input:focus{
   margin: 11px 0;
   line-height: 1.55;
 }
+.check-list--icons{
+  list-style: none;
+  padding-left: 0;
+}
+.check-list--icons li{
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin: 11px 0;
+}
+.check-list__marker{
+  flex-shrink: 0;
+  margin-top: 3px;
+  color: rgba(154, 115, 74, 0.72);
+}
+.check-list__marker .icon{
+  display: block;
+}
 .hero-aside .check-list{
   margin: 0 auto;
   padding-left: 1.35rem;
@@ -875,6 +924,12 @@ input:focus{
 .hero-aside .check-list li{
   margin: 17px 0;
   line-height: 1.68;
+}
+.hero-aside .check-list--icons{
+  padding-left: 0;
+}
+.hero-aside .check-list--icons li{
+  margin: 14px 0;
 }
 .aside-foot{
   margin: 18px 0 0;
@@ -1231,24 +1286,53 @@ input:focus{
 /* «Обо мне»: плашка справа с верхом на уровне заголовка h2 */
 .about-layout{
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1.05fr) minmax(200px, 1fr) minmax(0, 0.92fr);
   grid-template-areas:
-    "head card"
-    "intro card";
-  column-gap: clamp(22px, 3.5vw, 40px);
+    "head deco card"
+    "intro deco card";
+  column-gap: clamp(18px, 2.8vw, 32px);
   row-gap: clamp(10px, 1.5vw, 16px);
   align-items: start;
+  position: relative;
+}
+.about-layout__deco{
+  grid-area: deco;
+  position: relative;
+  align-self: stretch;
+  justify-self: end;
+  width: 100%;
+  min-height: clamp(200px, 26vw, 300px);
+  color: var(--ink-soft);
+  opacity: 0.34;
+  pointer-events: none;
+  overflow: visible;
+}
+.about-line-figure{
+  position: absolute;
+  right: -6%;
+  top: 50%;
+  transform: translateY(-50%);
+  width: min(118%, 360px);
+  height: auto;
+  max-height: min(100%, 320px);
+  display: block;
 }
 .about-layout .about-layout__head{
   grid-area: head;
   margin-bottom: 0;
+  position: relative;
+  z-index: 1;
 }
 .about-layout__intro{
   grid-area: intro;
+  position: relative;
+  z-index: 1;
 }
 .about-layout__card{
   grid-area: card;
   align-self: start;
+  position: relative;
+  z-index: 2;
 }
 .about-blocks{
   display: flex;
@@ -1314,6 +1398,9 @@ input:focus{
       "intro"
       "card";
   }
+  .about-layout__deco{
+    display: none;
+  }
   .about-layout__card{
     align-self: stretch;
   }
@@ -1371,6 +1458,44 @@ input:focus{
 }
 .work-partnership-panel .work-flow-block__title{
   margin-bottom: 18px;
+}
+.work-partnership-heading{
+  margin-bottom: 18px;
+}
+.work-partnership-heading .work-flow-block__title{
+  margin: 0;
+  flex: 1;
+  min-width: 0;
+}
+.work-partnership-panel .work-partnership-heading .work-flow-block__title{
+  margin-bottom: 0;
+}
+.work-steps__title-row{
+  align-items: flex-start;
+  margin: 0 0 8px;
+}
+.work-steps__title-row .work-steps__line{
+  margin: 0;
+  flex: 1;
+  min-width: 0;
+}
+.format-card__icon{
+  display: flex;
+  justify-content: center;
+  margin: 0 0 12px;
+  color: rgba(154, 115, 74, 0.72);
+}
+.faq-section__title-row{
+  align-items: flex-start;
+}
+.faq-section__title-row .icon{
+  margin-top: 6px;
+  color: rgba(154, 115, 74, 0.72);
+}
+.faq-section__title-row h2{
+  margin: 0;
+  flex: 1;
+  min-width: 0;
 }
 .work-partnership-intro{
   max-width: 58ch;
