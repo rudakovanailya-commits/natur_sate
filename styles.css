@@ -1398,9 +1398,13 @@ input:focus{
   padding: 17px 22px;
   position: relative;
   z-index: 1;
-  background: transparent;
-  border-color: transparent;
-  box-shadow: none;
+  background: rgba(255, 252, 248, 0.62);
+  border: 1px solid rgba(185, 150, 130, 0.22);
+  box-shadow:
+    0 10px 26px rgba(120, 80, 60, 0.08),
+    0 2px 8px rgba(100, 75, 60, 0.05);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
 }
 .about-layout .about-card.about-card--note::before{
   content: "";
@@ -1434,8 +1438,10 @@ input:focus{
   }
 }
 .about-layout .about-card.about-card--note:hover{
-  box-shadow: none;
-  border-color: transparent;
+  box-shadow:
+    0 14px 34px rgba(120, 80, 60, 0.10),
+    0 4px 10px rgba(100, 75, 60, 0.06);
+  border-color: rgba(175, 145, 125, 0.30);
 }
 .about-card--note .muted{
   margin: 0 0 12px;
