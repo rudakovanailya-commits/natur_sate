@@ -1320,7 +1320,7 @@ input:focus{
   background-repeat: no-repeat, no-repeat;
   background-position:
     left center,
-    right -120px bottom clamp(0px, 1.5vw, 14px);
+    right -260px bottom clamp(0px, 1.5vw, 14px);
   background-size: 700px auto;
   /* multiply: подложка PNG с градиентом секции; contrast + saturate — читаемее линии */
   mix-blend-mode: multiply;
@@ -1328,11 +1328,11 @@ input:focus{
   filter: contrast(1.48) saturate(1.35);
   border-radius: 28px;
   -webkit-mask-image:
-    radial-gradient(circle at 72% 55%, rgba(0,0,0,1) 48%, rgba(0,0,0,0.72) 66%, rgba(0,0,0,0) 90%),
-    linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.55) 18%, rgba(0,0,0,1) 38%, rgba(0,0,0,1) 100%);
+    radial-gradient(circle at 74% 56%, rgba(0,0,0,1) 42%, rgba(0,0,0,0.62) 66%, rgba(0,0,0,0) 94%),
+    linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.18) 20%, rgba(0,0,0,0.75) 46%, rgba(0,0,0,1) 64%, rgba(0,0,0,1) 100%);
   mask-image:
-    radial-gradient(circle at 72% 55%, rgba(0,0,0,1) 48%, rgba(0,0,0,0.72) 66%, rgba(0,0,0,0) 90%),
-    linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.55) 18%, rgba(0,0,0,1) 38%, rgba(0,0,0,1) 100%);
+    radial-gradient(circle at 74% 56%, rgba(0,0,0,1) 42%, rgba(0,0,0,0.62) 66%, rgba(0,0,0,0) 94%),
+    linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.18) 20%, rgba(0,0,0,0.75) 46%, rgba(0,0,0,1) 64%, rgba(0,0,0,1) 100%);
   -webkit-mask-composite: source-in;
   mask-composite: intersect;
   pointer-events: none;
