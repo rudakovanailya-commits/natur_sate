@@ -1309,6 +1309,9 @@ input:focus{
   mix-blend-mode: multiply;
   opacity: 0.82;
   filter: contrast(1.48) saturate(1.35);
+  border-radius: 28px;
+  -webkit-mask-image: radial-gradient(circle at 70% 55%, rgba(0,0,0,1) 62%, rgba(0,0,0,0.86) 74%, rgba(0,0,0,0) 92%);
+  mask-image: radial-gradient(circle at 70% 55%, rgba(0,0,0,1) 62%, rgba(0,0,0,0.86) 74%, rgba(0,0,0,0) 92%);
   pointer-events: none;
   z-index: 0;
 }
