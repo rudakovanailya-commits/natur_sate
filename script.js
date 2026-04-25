@@ -46,6 +46,81 @@
   const heroSubtitleTextEl = document.getElementById("heroSubtitleText");
   const heroSubtitleCursorEl = document.getElementById("heroSubtitleCursor");
 
+  function initTypewriters() {
+    const blocks = document.querySelectorAll("[data-typewriter]");
+    if (!blocks.length) return;
+
+    blocks.forEach((block) => {
+      const textEl = block.querySelector("[data-typewriter-text]");
+      const cursorEl = block.querySelector("[data-typewriter-cursor]");
+      if (!textEl || !cursorEl) return;
+
+      const full = textEl.innerHTML;
+
+      const typingSpeed = Number(block.getAttribute("data-typing-speed") || "55");
+      const initialDelay = Number(block.getAttribute("data-initial-delay") || "0");
+
+      if (reduceMotion) {
+        block.classList.add("hero-subtitle--no-motion");
+        textEl.innerHTML = full;
+        return;
+      }
+
+      let started = false;
+      let charIndex = 0;
+      let timeoutId = 0;
+
+      function clearTypingTimeout() {
+        if (timeoutId) window.clearTimeout(timeoutId);
+        timeoutId = 0;
+      }
+
+      function schedule(fn, delay) {
+        clearTypingTimeout();
+        timeoutId = window.setTimeout(fn, delay);
+      }
+
+      function tick() {
+        charIndex += 1;
+        textEl.innerHTML = full.slice(0, charIndex);
+        if (charIndex < full.length) {
+          schedule(tick, typingSpeed);
+        }
+      }
+
+      function start() {
+        if (started) return;
+        started = true;
+        textEl.innerHTML = "";
+        schedule(tick, initialDelay);
+      }
+
+      if ("IntersectionObserver" in window) {
+        const io = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (!entry.isIntersecting) return;
+              start();
+              io.disconnect();
+            });
+          },
+          { threshold: 0.2 }
+        );
+        io.observe(block);
+      } else {
+        start();
+      }
+
+      window.addEventListener(
+        "pagehide",
+        () => {
+          clearTypingTimeout();
+        },
+        { once: true }
+      );
+    });
+  }
+
   function initHeroSubtitleTypewriter() {
     if (!heroSubtitleEl || !heroSubtitleTextEl || !heroSubtitleCursorEl) return;
 
@@ -166,6 +241,7 @@
   }
 
   initHeroSubtitleTypewriter();
+  initTypewriters();
 
   const MAKE_CONTACT_WEBHOOK =
     "https://hook.eu1.make.com/klftvhij43ghedghj6b839ftoldwgp47";
@@ -253,35 +329,6 @@
       consultFlowWrap.setAttribute("aria-hidden", String(!open));
     });
   }
-
-  function initAboutNoteGlow() {
-    const card = document.querySelector(".about-card.about-card--note");
-    if (!card) return;
-
-    const canHover = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
-    if (!canHover || reduceMotion) return;
-
-    function setFromEvent(e) {
-      const rect = card.getBoundingClientRect();
-      const x = Math.max(0, Math.min(rect.width, e.clientX - rect.left));
-      const y = Math.max(0, Math.min(rect.height, e.clientY - rect.top));
-      card.style.setProperty("--glow-x", `${((x / rect.width) * 100).toFixed(2)}%`);
-      card.style.setProperty("--glow-y", `${((y / rect.height) * 100).toFixed(2)}%`);
-    }
-
-    card.addEventListener("pointerenter", (e) => {
-      card.classList.add("is-glow-active");
-      setFromEvent(e);
-    });
-    card.addEventListener("pointermove", (e) => {
-      setFromEvent(e);
-    });
-    card.addEventListener("pointerleave", () => {
-      card.classList.remove("is-glow-active");
-    });
-  }
-
-  initAboutNoteGlow();
 
   $$('a[href^="#"]').forEach((a) => {
     const href = a.getAttribute("href");
