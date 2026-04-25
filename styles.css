@@ -1302,7 +1302,7 @@ input:focus{
   content: "";
   position: absolute;
   inset: 0;
-  background: url("woman-lines.png") no-repeat;
+  background: url("woman-lines.svg") no-repeat;
   background-position: right 80px bottom clamp(0px, 1.5vw, 14px);
   background-size: 700px auto;
   /* multiply: подложка PNG с градиентом секции; contrast + saturate — читаемее линии */
