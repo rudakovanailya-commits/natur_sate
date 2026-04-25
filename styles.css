@@ -1320,7 +1320,7 @@ input:focus{
   background-repeat: no-repeat, no-repeat;
   background-position:
     left center,
-    right 260px bottom calc(clamp(0px, 1.5vw, 14px) + 76px);
+    right 260px bottom calc(clamp(0px, 1.5vw, 14px) + 30px);
   background-size: 700px auto;
   /* multiply: подложка PNG с градиентом секции; contrast + saturate — читаемее линии */
   mix-blend-mode: multiply;
@@ -1463,7 +1463,7 @@ input:focus{
   .about-section::after{
     background-position:
       left center,
-      right -40px bottom 76px;
+      right -40px bottom 30px;
     background-size: 520px auto;
     opacity: 0.66;
   }
