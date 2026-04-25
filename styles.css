@@ -1409,33 +1409,28 @@ input:focus{
   border-radius: 26px;
   pointer-events: none;
   z-index: 0;
-  opacity: 0.9;
+  opacity: 0.42;
   background:
-    radial-gradient(340px 240px at 18% 38%, rgba(255, 223, 206, 0.78), transparent 72%),
-    radial-gradient(460px 300px at 78% 62%, rgba(218, 190, 176, 0.62), transparent 72%),
-    linear-gradient(120deg, rgba(255, 248, 242, 0.38), rgba(247, 242, 234, 0));
-  background-size: 120% 120%;
-  background-position: 0% 50%;
-  filter: blur(14px);
-  mix-blend-mode: soft-light;
-  animation: aboutNoteGlowMove 10s ease-in-out infinite alternate;
+    radial-gradient(360px 240px at 22% 42%, rgba(255, 236, 225, 0.55), transparent 74%),
+    radial-gradient(520px 320px at 78% 58%, rgba(230, 206, 196, 0.38), transparent 72%),
+    linear-gradient(120deg, rgba(255, 248, 242, 0.22), rgba(247, 242, 234, 0));
+  filter: blur(10px);
+  animation: aboutNoteGlow 9s ease-in-out infinite alternate;
 }
 .about-layout .about-card.about-card--note > *{
   position: relative;
   z-index: 1;
 }
 .about-layout .about-card.about-card--note:hover::before{
-  opacity: 0.82;
+  opacity: 0.52;
 }
 
-@keyframes aboutNoteGlowMove{
+@keyframes aboutNoteGlow{
   0%{
-    transform: translate3d(-10px, 6px, 0) scale(1.03);
-    background-position: 0% 45%;
+    transform: translate3d(-10px, 6px, 0) scale(1.02);
   }
   100%{
-    transform: translate3d(10px, -6px, 0) scale(1.07);
-    background-position: 100% 55%;
+    transform: translate3d(10px, -6px, 0) scale(1.05);
   }
 }
 .about-layout .about-card.about-card--note:hover{
