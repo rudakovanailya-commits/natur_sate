@@ -254,6 +254,35 @@
     });
   }
 
+  function initAboutNoteGlow() {
+    const card = document.querySelector(".about-card.about-card--note");
+    if (!card) return;
+
+    const canHover = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+    if (!canHover || reduceMotion) return;
+
+    function setFromEvent(e) {
+      const rect = card.getBoundingClientRect();
+      const x = Math.max(0, Math.min(rect.width, e.clientX - rect.left));
+      const y = Math.max(0, Math.min(rect.height, e.clientY - rect.top));
+      card.style.setProperty("--glow-x", `${((x / rect.width) * 100).toFixed(2)}%`);
+      card.style.setProperty("--glow-y", `${((y / rect.height) * 100).toFixed(2)}%`);
+    }
+
+    card.addEventListener("pointerenter", (e) => {
+      card.classList.add("is-glow-active");
+      setFromEvent(e);
+    });
+    card.addEventListener("pointermove", (e) => {
+      setFromEvent(e);
+    });
+    card.addEventListener("pointerleave", () => {
+      card.classList.remove("is-glow-active");
+    });
+  }
+
+  initAboutNoteGlow();
+
   $$('a[href^="#"]').forEach((a) => {
     const href = a.getAttribute("href");
     if (!href || href === "#") return;

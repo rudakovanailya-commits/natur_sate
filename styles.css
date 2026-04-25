@@ -1398,6 +1398,8 @@ input:focus{
   padding: 17px 22px;
   position: relative;
   z-index: 1;
+  --glow-x: 50%;
+  --glow-y: 35%;
   background: rgba(255, 252, 248, 0.62);
   border: 1px solid rgba(185, 150, 130, 0.22);
   box-shadow:
@@ -1424,6 +1426,27 @@ input:focus{
 .about-layout .about-card.about-card--note > *{
   position: relative;
   z-index: 1;
+}
+.about-layout .about-card.about-card--note::after{
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: 28px;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0;
+  transition: opacity 240ms ease;
+  background:
+    radial-gradient(
+      280px 220px at var(--glow-x) var(--glow-y),
+      rgba(201, 177, 170, 0.52),
+      rgba(201, 177, 170, 0.18) 38%,
+      transparent 72%
+    );
+  filter: blur(8px);
+}
+.about-layout .about-card.about-card--note.is-glow-active::after{
+  opacity: 0.9;
 }
 .about-layout .about-card.about-card--note:hover::before{
   opacity: 0.52;
@@ -1469,6 +1492,9 @@ input:focus{
   }
   .about-layout__card{
     align-self: stretch;
+  }
+  .about-layout .about-card.about-card--note::after{
+    display: none;
   }
   .about-blocks{
     max-width: none;
