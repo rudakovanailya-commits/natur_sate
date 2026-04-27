@@ -534,12 +534,6 @@ main#main{
   filter: brightness(0.82);
 }
 
-.cta-note{
-  font-size: 14px;
-  color: #777;
-  margin-top: 8px;
-}
-
 .hero-copy p.hero-cta__hint{
   margin: 20px 0 0;
   margin-bottom: 0;
