@@ -167,9 +167,6 @@
 
   initHeroSubtitleTypewriter();
 
-  const MAKE_CONTACT_WEBHOOK =
-    "https://hook.eu1.make.com/klftvhij43ghedghj6b839ftoldwgp47";
-
   const contactFormEl = document.getElementById("contactForm");
   const contactStatusEl = $("#contactStatus");
   const contactConsentEl = $("#contactConsent");
@@ -199,11 +196,9 @@
 
         if (contactSubmitBtn) contactSubmitBtn.disabled = true;
         try {
-          const res = await fetch(MAKE_CONTACT_WEBHOOK, {
+          const res = await fetch("/api/contact", {
             method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
+            headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ name, contact, goal }),
           });
           if (!res.ok) {
