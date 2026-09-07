@@ -2,6 +2,14 @@
   const $ = (sel) => document.querySelector(sel);
   const $$ = (sel) => Array.from(document.querySelectorAll(sel));
 
+  function trackEvent(eventName, params = {}) {
+    if (typeof window.gtag === "function") {
+      window.gtag("event", eventName, params);
+    } else {
+      console.log("[analytics]", eventName, params);
+    }
+  }
+
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   if (!reduceMotion) {
     document.documentElement.classList.add("js-reveal-ready");
@@ -204,6 +212,9 @@
           if (!res.ok) {
             throw new Error(`HTTP ${res.status}`);
           }
+          trackEvent("form_submit_success", {
+            form_name: "contact_form",
+          });
           alert("Заявка отправлена");
           contactFormEl.reset();
           syncContactSubmitEnabled();
@@ -216,6 +227,22 @@
       });
     }
   }
+
+  $$('a[href*="t.me/"]').forEach((link) => {
+    link.addEventListener("click", () => {
+      trackEvent("telegram_click", {
+        link_url: link.href,
+      });
+    });
+  });
+
+  $$('a[href*="quiz/"]').forEach((link) => {
+    link.addEventListener("click", () => {
+      trackEvent("quiz_click", {
+        link_url: link.href,
+      });
+    });
+  });
 
   if (contactConsentEl && contactSubmitBtn) {
     contactConsentEl.addEventListener("change", syncContactSubmitEnabled);
