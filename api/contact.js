@@ -12,6 +12,32 @@ function parseJsonBody(req) {
   return {};
 }
 
+function normalizeUtm(raw) {
+  const utm = raw && typeof raw === "object" ? raw : {};
+  return {
+    source: String(utm.source || "").trim(),
+    medium: String(utm.medium || "").trim(),
+    campaign: String(utm.campaign || "").trim(),
+    content: String(utm.content || "").trim(),
+    term: String(utm.term || "").trim(),
+    landing_page: String(utm.landing_page || "").trim(),
+    referrer: String(utm.referrer || "").trim(),
+  };
+}
+
+function formatUtmText(utm) {
+  const orUnknown = (value) => value || "не определён";
+  return [
+    `Источник: ${orUnknown(utm.source)}`,
+    `Канал: ${orUnknown(utm.medium)}`,
+    `Кампания: ${orUnknown(utm.campaign)}`,
+    `Контент: ${orUnknown(utm.content)}`,
+    `Ключевое слово: ${orUnknown(utm.term)}`,
+    `Страница заявки: ${orUnknown(utm.landing_page)}`,
+    `Referrer: ${orUnknown(utm.referrer)}`,
+  ].join("\n");
+}
+
 module.exports = async function handler(req, res) {
   if (req.method !== "POST") {
     res.setHeader("Allow", "POST");
@@ -31,6 +57,9 @@ module.exports = async function handler(req, res) {
     return res.status(400).json({ ok: false, error: "name and contact required" });
   }
 
+  const utm = normalizeUtm(body.utm);
+  const utm_text = formatUtmText(utm);
+
   const webhook = process.env.MAKE_CONTACT_WEBHOOK;
   if (!webhook) {
     console.error("MAKE_CONTACT_WEBHOOK is not set");
@@ -41,7 +70,7 @@ module.exports = async function handler(req, res) {
     const makeRes = await fetch(webhook, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name, contact, goal }),
+      body: JSON.stringify({ name, contact, goal, utm, utm_text }),
     });
     if (!makeRes.ok) {
       console.error("Make webhook error:", makeRes.status);

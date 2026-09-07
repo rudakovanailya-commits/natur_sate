@@ -17,6 +17,60 @@
     }
   }
 
+  const LEAD_UTM_KEY = "lead_utm";
+
+  function readUtmFromUrl() {
+    const params = new URLSearchParams(window.location.search);
+    const utm = {
+      source: params.get("utm_source") || "",
+      medium: params.get("utm_medium") || "",
+      campaign: params.get("utm_campaign") || "",
+      content: params.get("utm_content") || "",
+      term: params.get("utm_term") || "",
+    };
+    const hasAny = Object.values(utm).some(Boolean);
+    return hasAny ? utm : null;
+  }
+
+  function saveUtmFromUrl() {
+    try {
+      const fromUrl = readUtmFromUrl();
+      if (!fromUrl) return;
+      localStorage.setItem(
+        LEAD_UTM_KEY,
+        JSON.stringify({
+          ...fromUrl,
+          landing_page: window.location.href,
+          referrer: document.referrer || "",
+        })
+      );
+    } catch (_) {
+      /* localStorage может быть недоступен */
+    }
+  }
+
+  function getStoredUtm() {
+    try {
+      const raw = localStorage.getItem(LEAD_UTM_KEY);
+      if (!raw) return null;
+      const parsed = JSON.parse(raw);
+      if (!parsed || typeof parsed !== "object") return null;
+      return {
+        source: String(parsed.source || ""),
+        medium: String(parsed.medium || ""),
+        campaign: String(parsed.campaign || ""),
+        content: String(parsed.content || ""),
+        term: String(parsed.term || ""),
+        landing_page: String(parsed.landing_page || window.location.href),
+        referrer: String(parsed.referrer || document.referrer || ""),
+      };
+    } catch (_) {
+      return null;
+    }
+  }
+
+  saveUtmFromUrl();
+
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   if (!reduceMotion) {
     document.documentElement.classList.add("js-reveal-ready");
@@ -211,10 +265,19 @@
 
         if (contactSubmitBtn) contactSubmitBtn.disabled = true;
         try {
+          const utm = getStoredUtm() || {
+            source: "",
+            medium: "",
+            campaign: "",
+            content: "",
+            term: "",
+            landing_page: window.location.href,
+            referrer: document.referrer || "",
+          };
           const res = await fetch("/api/contact", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ name, contact, goal }),
+            body: JSON.stringify({ name, contact, goal, utm }),
           });
           if (!res.ok) {
             throw new Error(`HTTP ${res.status}`);
