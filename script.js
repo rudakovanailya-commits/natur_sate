@@ -251,6 +251,14 @@
     });
   });
 
+  $$('a[href*="vk.com"], a[href*="vk.ru"], a[href*="vkontakte.ru"]').forEach((link) => {
+    link.addEventListener("click", () => {
+      trackEvent("vk_click", {
+        link_url: link.href,
+      });
+    });
+  });
+
   if (contactConsentEl && contactSubmitBtn) {
     contactConsentEl.addEventListener("change", syncContactSubmitEnabled);
     syncContactSubmitEnabled();
