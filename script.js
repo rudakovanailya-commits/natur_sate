@@ -3,9 +3,16 @@
   const $$ = (sel) => Array.from(document.querySelectorAll(sel));
 
   function trackEvent(eventName, params = {}) {
+    let tracked = false;
     if (typeof window.gtag === "function") {
       window.gtag("event", eventName, params);
-    } else {
+      tracked = true;
+    }
+    if (typeof window.ym === "function") {
+      window.ym(112357267, "reachGoal", eventName, params);
+      tracked = true;
+    }
+    if (!tracked) {
       console.log("[analytics]", eventName, params);
     }
   }
