@@ -364,4 +364,23 @@
       target.scrollIntoView({ behavior: "smooth", block: "start" });
     });
   });
+
+  const scrollTopBtn = document.getElementById("scrollTopBtn");
+  if (scrollTopBtn) {
+    const SCROLL_TOP_THRESHOLD = 500;
+    const syncScrollTopVisibility = () => {
+      const visible = window.scrollY > SCROLL_TOP_THRESHOLD;
+      scrollTopBtn.classList.toggle("is-visible", visible);
+      scrollTopBtn.setAttribute("aria-hidden", String(!visible));
+      scrollTopBtn.tabIndex = visible ? 0 : -1;
+    };
+    window.addEventListener("scroll", syncScrollTopVisibility, { passive: true });
+    syncScrollTopVisibility();
+    scrollTopBtn.addEventListener("click", () => {
+      if (typeof trackEvent === "function") {
+        trackEvent("scroll_top_click", { location: "floating_button" });
+      }
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+  }
 })();
